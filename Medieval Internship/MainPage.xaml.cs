@@ -1,4 +1,4 @@
-﻿namespace Medieval_Internship;
+﻿namespace Medieval_Internship; RICHI HAMA
 
 public partial class MainPage : ContentPage
 {

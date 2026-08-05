@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.MainPage"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,60,30,30" Spacing="20">
+
+            <Image Source="logo_smk.png"
+                   HeightRequest="110"
+                   WidthRequest="110"
+                   HorizontalOptions="Center"
+                   Aspect="AspectFit"/>
+
+            <Label Text="PKL Monitoring"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#1E3A5F"/>
+
+            <Label Text="Sistem Monitoring Praktik Kerja Lapangan"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   TextColor="Gray"/>
+
+            <Border Padding="20"
+                    Stroke="Transparent"
+                    BackgroundColor="White"
+                    Margin="0,30,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label Text="Masuk sebagai" FontAttributes="Bold"/>
+
+                    <Picker x:Name="RolePicker" Title="Pilih Role">
+                        <Picker.Items>
+                            <x:String>Admin</x:String>
+                            <x:String>Operator</x:String>
+                            <x:String>Siswa</x:String>
+                            <x:String>Guru Pendamping</x:String>
+                            <x:String>Pembimbing Industri</x:String>
+                            <x:String>Monitor</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <Entry x:Name="UsernameEntry" Placeholder="Username" />
+                    <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+
+                    <Button Text="Masuk"
+                            Clicked="OnLoginClicked"
+                            BackgroundColor="#1E3A5F"
+                            TextColor="White"
+                            CornerRadius="8"/>
+
+                    <Label x:Name="StatusLabel"
+                           FontSize="12"
+                           TextColor="Red"
+                           HorizontalOptions="Center"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

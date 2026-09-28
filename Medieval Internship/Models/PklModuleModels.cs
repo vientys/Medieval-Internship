@@ -171,9 +171,11 @@ public class AnnouncementRecord
 
 public enum ReportStatus
 {
-    Draft,
     MenungguReview,
-    PerluRevisi,
+    Tahan,
+    Setuju,
+    Revisi,
+    PerluRevisi = Revisi,
     DisetujuiPembimbing,
     LulusSidang
 }
@@ -183,8 +185,10 @@ public class FinalReportRecord
     public string Id { get; set; } = Guid.NewGuid().ToString()[..8];
     public string StudentId { get; set; } = string.Empty;
     public string StudentName { get; set; } = string.Empty;
+    public string Nisn { get; set; } = string.Empty;
     public string ClassName { get; set; } = string.Empty;
     public string CompanyName { get; set; } = string.Empty;
+    public string MentorName { get; set; } = string.Empty;
     public string ReportTitle { get; set; } = string.Empty;
     public string Abstract { get; set; } = string.Empty;
     public string FileName { get; set; } = "Laporan_Akhir_PKL_Lengkap.pdf";
@@ -192,11 +196,12 @@ public class FinalReportRecord
     public DateTime UploadDate { get; set; } = DateTime.Today;
     public ReportStatus Status { get; set; } = ReportStatus.MenungguReview;
 
-    // Nilai Pembimbing Industri (0-100)
+    // Status Pembimbing Industri (FR-RPT-03: Tahan, Setuju, Revisi)
+    public string IndustriStatus { get; set; } = "Menunggu";
+    public string CatatanIndustri { get; set; } = "Kemampuan problem solving cepat dan adaptif dengan stack cloud tim.";
     public double NilaiTeknisIndustri { get; set; } = 92.0;
     public double NilaiSoftSkillIndustri { get; set; } = 95.0;
     public double NilaiDisiplinIndustri { get; set; } = 94.0;
-    public string CatatanIndustri { get; set; } = "Kemampuan problem solving cepat dan adaptif dengan stack cloud tim.";
     public double RataRataIndustri => (NilaiTeknisIndustri + NilaiSoftSkillIndustri + NilaiDisiplinIndustri) / 3.0;
 
     // Nilai Guru Pembimbing (0-100)
@@ -212,63 +217,112 @@ public class FinalReportRecord
 
     public string StatusText => Status switch
     {
-        ReportStatus.Draft => "Draft",
-        ReportStatus.MenungguReview => "Menunggu Review",
-        ReportStatus.PerluRevisi => "Perlu Revisi",
+        ReportStatus.Setuju => "Setuju (Industri)",
+        ReportStatus.Tahan => "Tahan (Industri)",
+        ReportStatus.Revisi => "Revisi (Industri)",
         ReportStatus.DisetujuiPembimbing => "Disetujui Pembimbing",
         ReportStatus.LulusSidang => "Lulus Sidang PKL",
-        _ => "Dalam Proses"
+        _ => "Menunggu Review"
     };
 
     public string StatusColor => Status switch
     {
-        ReportStatus.LulusSidang => "#10B981",
+        ReportStatus.LulusSidang or ReportStatus.Setuju => "#10B981",
         ReportStatus.DisetujuiPembimbing => "#059669",
-        ReportStatus.PerluRevisi => "#DC2626",
-        ReportStatus.MenungguReview => "#D97706",
-        _ => "#64748B"
+        ReportStatus.Revisi => "#DC2626",
+        ReportStatus.Tahan => "#6366F1",
+        _ => "#D97706"
     };
 }
 
-public class MasterStudentModel
+// FR-MST-03: Jurusan (Vocational Major)
+public class VocationalMajorModel
 {
     public string Id { get; set; } = Guid.NewGuid().ToString()[..8];
-    public string Nisn { get; set; } = string.Empty;
-    public string FullName { get; set; } = string.Empty;
-    public string ClassName { get; set; } = string.Empty;
-    public string Major { get; set; } = string.Empty;
-    public string CompanyId { get; set; } = string.Empty;
-    public string CompanyName { get; set; } = string.Empty;
-    public string InternalMentorId { get; set; } = string.Empty;
-    public string InternalMentorName { get; set; } = string.Empty;
-    public string ExternalMentorId { get; set; } = string.Empty;
-    public string ExternalMentorName { get; set; } = string.Empty;
-    public string PeriodId { get; set; } = "GEL-1-2026";
-    public string StatusPkl { get; set; } = "Aktif Magang";
-    public double AttendanceRate { get; set; } = 96.5;
-    public int JournalCount { get; set; } = 42;
+    public string MajorCode { get; set; } = string.Empty; // Mandatory, Unique
+    public string MajorName { get; set; } = string.Empty; // Mandatory, Unique
+    public string Description { get; set; } = string.Empty; // Nullable
+    public int Status { get; set; } = 1; // 1 = Active, 0 = Inactive
+    public string StatusText => Status == 1 ? "Active" : "Inactive";
 }
 
+// FR-MST-02: Kelas (Classroom)
+public class DepartmentClassModel
+{
+    public string Id { get; set; } = Guid.NewGuid().ToString()[..8];
+    public string VocationalId { get; set; } = string.Empty; // Mandatory
+    public string MajorName { get; set; } = string.Empty;
+    public string ClassName { get; set; } = string.Empty; // Unique per TA
+    public string AcademicYear { get; set; } = "2026/2027";
+    public string HomeroomTeacher { get; set; } = string.Empty;
+    public int Capacity { get; set; } = 36;
+    public int TotalStudents { get; set; } = 36;
+}
+
+// FR-MST-04: Perusahaan (Company Partner)
 public class CompanyPartnerModel
 {
     public string Id { get; set; } = Guid.NewGuid().ToString()[..8];
     public string Name { get; set; } = string.Empty;
     public string IndustrySector { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
+    public double Latitude { get; set; } = -6.2297;
+    public double Longitude { get; set; } = 106.8164;
     public string ContactPerson { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string LogoUrl { get; set; } = "logo_telkom.png";
+    public int Status { get; set; } = 1; // 1 = Active, 0 = Inactive
+    public string StatusText => Status == 1 ? "Active" : "Inactive";
     public int Quota { get; set; } = 10;
     public int Occupied { get; set; } = 4;
     public string MouStatus { get; set; } = "Aktif (Hingga 2028)";
 }
 
-public class DepartmentClassModel
+// FR-MST-01: Siswa (Student)
+public class MasterStudentModel
 {
-    public string MajorName { get; set; } = string.Empty;
+    public string Id { get; set; } = Guid.NewGuid().ToString()[..8];
+    public string UserId { get; set; } = string.Empty; // Unique
+    public string ClassroomId { get; set; } = string.Empty; // Mandatory
+    public string CompanyId { get; set; } = string.Empty; // Mandatory
+    public string InternalMentorId { get; set; } = string.Empty; // Mandatory
+    public string ExternalMentorId { get; set; } = string.Empty; // Mandatory
+    public string Nisn { get; set; } = string.Empty; // Unique
+    public string FullName { get; set; } = string.Empty;
+    public string Gender { get; set; } = "L"; // L / P
+    public DateTime BirthDate { get; set; } = new(2008, 5, 12);
+    public string Address { get; set; } = "Jakarta Pusat";
+    public string PhoneNumber { get; set; } = "081234567890"; // Unique
+    public DateTime StartDate { get; set; } = new(2026, 7, 1);
+    public DateTime EndDate { get; set; } = new(2026, 9, 30);
+    public string Status { get; set; } = "Active"; // "Active", "Internship", "Completed", "Inactive"
+
+    // Helper display properties
     public string ClassName { get; set; } = string.Empty;
-    public string HomeroomTeacher { get; set; } = string.Empty;
-    public int TotalStudents { get; set; } = 36;
+    public string Major { get; set; } = string.Empty;
+    public string CompanyName { get; set; } = string.Empty;
+    public string InternalMentorName { get; set; } = string.Empty;
+    public string ExternalMentorName { get; set; } = string.Empty;
+    public string PeriodId { get; set; } = "GEL-1-2026";
+    public string StatusPkl { get; set; } = "Active";
+    public double AttendanceRate { get; set; } = 96.5;
+    public int JournalCount { get; set; } = 42;
+}
+
+// FR-MST-05: Pembimbing (Mentor)
+public class MasterMentorModel
+{
+    public string Id { get; set; } = Guid.NewGuid().ToString()[..8];
+    public string MentorName { get; set; } = string.Empty;
+    public string Nip { get; set; } = string.Empty;
+    public string MentorType { get; set; } = "Internal"; // Internal (Guru) / External (Industri)
+    public string CompanyName { get; set; } = string.Empty;
+    public string AssignedStudentName { get; set; } = string.Empty;
+    public string AssignedStudentNisn { get; set; } = string.Empty;
+    public string AssignedClassName { get; set; } = string.Empty;
+    public string AssignedMajorCode { get; set; } = string.Empty;
 }
 
 public class PklPeriodModel
@@ -282,8 +336,11 @@ public class PklPeriodModel
     public string DateRangeFormatted => $"{StartDate:dd MMM yyyy} s/d {EndDate:dd MMM yyyy}";
 }
 
+// FR-APK-01: Application Settings
 public class SchoolConfigModel
 {
+    public string ApplicationName { get; set; } = "PKL Monitor Vokasi";
+    public string ApplicationDescription { get; set; } = "Sistem Monitoring dan Pelaporan Praktik Kerja Lapangan Vokasi Terintegrasi";
     public string SchoolName { get; set; } = "SMK Negeri 1 Jakarta";
     public string Npsn { get; set; } = "20101234";
     public string Accreditation { get; set; } = "A (Unggul)";
@@ -297,12 +354,17 @@ public class SchoolConfigModel
     public string Youtube { get; set; } = "SMKN 1 Jakarta Official";
     public string HelpdeskContact { get; set; } = "+62 812-3456-7890 (Helpdesk PKL Hubin)";
     
-    // Sistem & Ketentuan PKL
+    // FR-APK-01 specific settings
+    public string Logo { get; set; } = "logo_smk.png";
+    public string Favicon { get; set; } = "favicon.ico";
+    public string ColorTheme { get; set; } = "#1E3A5F";
+    public string MaintenanceStatus { get; set; } = "Normal (Berjalan)";
+    public int AttendanceRadiusMeters { get; set; } = 100;
     public string ActiveAcademicYear { get; set; } = "2026/2027";
     public double MinAttendancePercent { get; set; } = 85.0;
     public string WorkStartTime { get; set; } = "08:00 WIB";
     public string WorkEndTime { get; set; } = "17:00 WIB";
-    public int SessionTimeoutMinutes { get; set; } = 60;
+    public int SessionTimeoutMinutes { get; set; } = 30; // 30 minutes per FR-ATH-01
 }
 
 public class ExportReportResult

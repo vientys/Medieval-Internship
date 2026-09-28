@@ -172,9 +172,11 @@ public partial class MonitoringKunjunganModulePage : ContentPage
             Grid.SetColumn(evalLabel, 0);
             footerGrid.Children.Add(evalLabel);
 
+            var btnStack = new HorizontalStackLayout { Spacing = 6 };
+
             var docBtn = new Button
             {
-                Text = "Lihat Berkas Berita Acara",
+                Text = "Lihat Berkas",
                 BackgroundColor = Color.FromArgb("#EFF6FF"),
                 TextColor = Color.FromArgb("#2563EB"),
                 FontSize = 10,
@@ -190,8 +192,54 @@ public partial class MonitoringKunjunganModulePage : ContentPage
                     $"Perusahaan: {capturedVisit.CompanyName}\nTanggal: {capturedVisit.VisitDateFormatted}\nPembimbing: {capturedVisit.GuruName}\nSiswa: {capturedVisit.StudentsMet}\nLampiran Berkas: {capturedVisit.DocumentationProof}\n\nStatus Berita Acara: Lengkap & Terverifikasi Sekolah.",
                     "Tutup");
             };
-            Grid.SetColumn(docBtn, 1);
-            footerGrid.Children.Add(docBtn);
+            btnStack.Children.Add(docBtn);
+
+            // FR-VST-02: Memperbarui hasil kunjungan (Catatan diskusi & foto dokumentasi WAJIB)
+            if (_currentUser?.Role == UserRole.GuruPendamping || _currentUser?.Role == UserRole.Admin)
+            {
+                var updateBtn = new Button
+                {
+                    Text = "✏️ Update Hasil",
+                    BackgroundColor = Color.FromArgb("#F5F3FF"),
+                    TextColor = Color.FromArgb("#7C3AED"),
+                    FontSize = 10,
+                    FontAttributes = FontAttributes.Bold,
+                    HeightRequest = 30,
+                    Padding = new Thickness(8, 0),
+                    CornerRadius = 6
+                };
+                updateBtn.Clicked += async (s, e) =>
+                {
+                    var newNotes = await DisplayPromptAsync("Update Catatan Kunjungan (FR-VST-02)",
+                        "Catatan diskusi hasil supervisi (WAJIB diisi):",
+                        initialValue: capturedVisit.SupervisionNotes);
+                    if (newNotes == null) return;
+                    if (string.IsNullOrWhiteSpace(newNotes))
+                    {
+                        ShowBanner("Catatan diskusi supervisi WAJIB diisi!", isError: true);
+                        return;
+                    }
+
+                    var proof = await DisplayActionSheetAsync("Unggah Foto Dokumentasi Kunjungan (WAJIB)", "Batal", null,
+                        "foto_lapangan_supervisi.jpg",
+                        "berita_acara_monev_signed.pdf",
+                        "tangkapan_layar_zoom_meeting.png");
+                    if (proof == null || proof == "Batal")
+                    {
+                        ShowBanner("Foto dokumentasi kunjungan WAJIB diunggah!", isError: true);
+                        return;
+                    }
+
+                    var (success, msg) = _dataService.UpdateVisitResult(
+                        capturedVisit.Id, newNotes, proof, capturedVisit.IndustryFeedback, capturedVisit.FollowUpRecommendations, capturedVisit.OverallAssessment);
+                    ShowBanner(msg, isError: !success);
+                    RefreshAll();
+                };
+                btnStack.Children.Add(updateBtn);
+            }
+
+            Grid.SetColumn(btnStack, 1);
+            footerGrid.Children.Add(btnStack);
 
             stack.Children.Add(footerGrid);
             card.Content = stack;

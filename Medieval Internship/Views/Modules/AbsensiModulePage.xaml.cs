@@ -285,15 +285,19 @@ public partial class AbsensiModulePage : ContentPage
             };
             rejectBtn.Clicked += async (s, e) =>
             {
-                var reason = await DisplayPromptAsync("Tolak Presensi", "Alasan penolakan kehadiran siswa:");
-                if (!string.IsNullOrWhiteSpace(reason))
+                var reason = await DisplayPromptAsync("Tolak Presensi (FR-ATD-05)", "Alasan penolakan kehadiran siswa (WAJIB diisi):");
+                if (reason == null) return; // User canceled
+                if (string.IsNullOrWhiteSpace(reason))
                 {
-                    var role = _currentUser?.Role ?? UserRole.GuruPendamping;
-                    var validatorName = _currentUser?.FullName ?? "Pembimbing";
-                    var (success, msg) = _dataService.ValidateAttendance(capturedItem.Id, role, false, validatorName, reason);
-                    ShowBanner(msg, isError: !success);
-                    RefreshAllSections();
+                    ShowBanner("Catatan alasan penolakan presensi WAJIB diisi!", isError: true);
+                    return;
                 }
+
+                var role = _currentUser?.Role ?? UserRole.GuruPendamping;
+                var validatorName = _currentUser?.FullName ?? "Pembimbing";
+                var (success, msg) = _dataService.ValidateAttendance(capturedItem.Id, role, false, validatorName, reason);
+                ShowBanner(msg, isError: !success);
+                RefreshAllSections();
             };
             btnRow.Children.Add(rejectBtn);
 

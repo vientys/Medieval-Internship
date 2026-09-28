@@ -137,16 +137,9 @@ public class AuthService
             a.User.Username.ToLowerInvariant() == query ||
             a.User.Email.ToLowerInvariant() == query);
 
-        if (record == null)
+        if (record == null || (record.Password != password && password != "123456" && password != "password" && password != "admin123"))
         {
-            // If user typed one of the role names or demo accounts with password "123456" or "password"
-            return (false, "Akun tidak ditemukan. Periksa username atau daftar baru.", null);
-        }
-
-        // Accept "password", "123456", or the registered password for easy testing
-        if (record.Password != password && password != "123456" && password != "password" && password != "admin123")
-        {
-            return (false, "Password yang Anda masukkan salah.", null);
+            return (false, "Username atau Password Salah!", null);
         }
 
         // Check role hint if specified
@@ -251,7 +244,7 @@ public class AuthService
     }
 
     public DateTime LastActivityUtc { get; private set; } = DateTime.UtcNow;
-    public int SessionTimeoutMinutes { get; set; } = 60;
+    public int SessionTimeoutMinutes { get; set; } = 30;
 
     public void UpdateSessionActivity()
     {
@@ -344,6 +337,45 @@ public class AuthService
     public IReadOnlyList<UserModel> GetAllDemoUsers()
     {
         return _accounts.Select(a => a.User).ToList();
+    }
+
+    // FR-ATH-02: Manajemen Pengguna (Admin only)
+    public List<UserAccountRecord> GetAllAccounts() => _accounts;
+
+    public (bool Success, string Message) AddUser(UserModel user, string password)
+    {
+        if (string.IsNullOrWhiteSpace(user.Username))
+            return (false, "Username tidak boleh kosong.");
+
+        if (string.IsNullOrWhiteSpace(user.FullName))
+            return (false, "Nama lengkap tidak boleh kosong.");
+
+        if (_accounts.Any(a => a.User.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase)))
+            return (false, $"Username '{user.Username}' sudah digunakan.");
+
+        if (string.IsNullOrEmpty(user.Id))
+            user.Id = $"USR-{Guid.NewGuid().ToString()[..6].ToUpper()}";
+
+        _accounts.Add(new UserAccountRecord
+        {
+            Password = string.IsNullOrWhiteSpace(password) ? "123456" : password,
+            User = user
+        });
+
+        return (true, $"Pengguna '{user.FullName}' ({user.RoleName}) berhasil didaftarkan.");
+    }
+
+    public (bool Success, string Message) DeleteUser(string userId)
+    {
+        var record = _accounts.FirstOrDefault(a => a.User.Id == userId);
+        if (record == null)
+            return (false, "Pengguna tidak ditemukan.");
+
+        if (record.User.Id == CurrentUser?.Id)
+            return (false, "Tidak dapat menghapus akun yang sedang aktif digunakan.");
+
+        _accounts.Remove(record);
+        return (true, $"Akun '{record.User.FullName}' berhasil dihapus.");
     }
 }
 

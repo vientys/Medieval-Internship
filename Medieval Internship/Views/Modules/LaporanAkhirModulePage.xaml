@@ -252,6 +252,16 @@
                                     HeightRequest="46"
                                     CornerRadius="10"
                                     Margin="0,8,0,0"/>
+
+                            <!-- FR-RPT-04: Unduh Laporan PDF -->
+                            <Button Text="Unduh Berkas Laporan Akhir (PDF) 📥"
+                                    Clicked="OnDownloadReportClicked"
+                                    BackgroundColor="#F1F5F9"
+                                    TextColor="#1E293B"
+                                    FontAttributes="Bold"
+                                    FontSize="13"
+                                    HeightRequest="42"
+                                    CornerRadius="10"/>
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
@@ -318,9 +328,26 @@
                                 </Border>
                             </VerticalStackLayout>
 
-                            <!-- Catatan Evaluasi Mentor Industri -->
+                            <!-- FR-RPT-03: Status Persetujuan Industri (Tahan, Setuju, Revisi) -->
                             <VerticalStackLayout Spacing="4">
-                                <Label Text="Catatan &amp; Evaluasi Mentor Industri"
+                                <Label Text="Keputusan Status Laporan Akhir (FR-RPT-03) *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Picker x:Name="IndustriStatusPicker" SelectedIndex="0" TextColor="#0F172A" FontSize="13">
+                                        <Picker.Items>
+                                            <x:String>Setuju (Disetujui DUDI)</x:String>
+                                            <x:String>Tahan (Ditahan / Butuh Konfirmasi)</x:String>
+                                            <x:String>Revisi (Perlu Perbaikan)</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Catatan Evaluasi Mentor Industri (Wajib Diisi) -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Catatan &amp; Evaluasi Mentor Industri (WAJIB DIISI) *"
                                        TextColor="#334155"
                                        FontSize="12"
                                        FontAttributes="Bold"/>

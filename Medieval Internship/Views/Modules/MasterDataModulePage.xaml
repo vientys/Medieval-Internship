@@ -56,14 +56,14 @@
                 Stroke="#E2E8F0"
                 StrokeThickness="1"
                 Padding="16,8">
-            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+            <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
                 <Button x:Name="TabStudentsBtn"
-                        Text="👨‍🎓 Data Siswa"
+                        Text="👨‍🎓 Siswa"
                         Clicked="OnTabStudentsClicked"
                         BackgroundColor="#1E3A5F"
                         TextColor="White"
                         FontAttributes="Bold"
-                        FontSize="12"
+                        FontSize="11"
                         HeightRequest="36"
                         CornerRadius="8"/>
                 <Button x:Name="TabCompaniesBtn"
@@ -71,23 +71,39 @@
                         Clicked="OnTabCompaniesClicked"
                         BackgroundColor="#F1F5F9"
                         TextColor="#475569"
-                        FontSize="12"
+                        FontSize="11"
                         HeightRequest="36"
                         CornerRadius="8"/>
-                <Button x:Name="TabImportBtn"
-                        Text="📥 Impor Data (CSV)"
-                        Clicked="OnTabImportClicked"
+                <Button x:Name="TabMajorsBtn"
+                        Text="🎓 Jurusan"
+                        Clicked="OnTabMajorsClicked"
                         BackgroundColor="#F1F5F9"
                         TextColor="#475569"
-                        FontSize="12"
+                        FontSize="11"
                         HeightRequest="36"
                         CornerRadius="8"/>
                 <Button x:Name="TabClassesBtn"
-                        Text="🏫 Jurusan &amp; Kelas"
+                        Text="🏫 Kelas"
                         Clicked="OnTabClassesClicked"
                         BackgroundColor="#F1F5F9"
                         TextColor="#475569"
-                        FontSize="12"
+                        FontSize="11"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabMentorsBtn"
+                        Text="👨‍🏫 Pembimbing"
+                        Clicked="OnTabMentorsClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="11"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabImportBtn"
+                        Text="📥 Impor CSV"
+                        Clicked="OnTabImportClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="11"
                         HeightRequest="36"
                         CornerRadius="8"/>
             </HorizontalStackLayout>
@@ -216,14 +232,73 @@
                 </VerticalStackLayout>
 
 
-                <!-- ================= TAB 4: JURUSAN & KELAS ================= -->
+                <!-- ================= TAB 3: JURUSAN (FR-MST-03) ================= -->
+                <VerticalStackLayout x:Name="SectionMajors" Spacing="14" IsVisible="False">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Master Kompetensi Keahlian (Jurusan)"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Tambah Jurusan"
+                                Clicked="OnAddMajorPromptClicked"
+                                BackgroundColor="#0D9488"
+                                TextColor="White"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="MajorsListContainer" Spacing="10">
+                        <!-- Populated dynamically -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 4: KELAS (FR-MST-02) ================= -->
                 <VerticalStackLayout x:Name="SectionClasses" Spacing="14" IsVisible="False">
-                    <Label Text="Daftar Kompetensi Keahlian &amp; Rombongan Belajar (Rombel)"
-                           TextColor="#0F172A"
-                           FontAttributes="Bold"
-                           FontSize="16"/>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Master Rombongan Belajar (Kelas)"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Tambah Kelas"
+                                Clicked="OnAddClassPromptClicked"
+                                BackgroundColor="#0284C7"
+                                TextColor="White"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                CornerRadius="8"/>
+                    </Grid>
 
                     <VerticalStackLayout x:Name="ClassesListContainer" Spacing="10">
+                        <!-- Populated dynamically -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 5: PEMBIMBING (FR-MST-05) ================= -->
+                <VerticalStackLayout x:Name="SectionMentors" Spacing="14" IsVisible="False">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Master Pembimbing Sekolah &amp; Industri (DUDI)"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Tambah Pembimbing"
+                                Clicked="OnAddMentorPromptClicked"
+                                BackgroundColor="#8B5CF6"
+                                TextColor="White"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="MentorsListContainer" Spacing="10">
                         <!-- Populated dynamically -->
                     </VerticalStackLayout>
                 </VerticalStackLayout>

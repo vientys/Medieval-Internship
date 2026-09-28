@@ -64,14 +64,83 @@
                     <Label x:Name="StatusLabel" TextColor="#065F46" FontSize="13"/>
                 </Border>
 
-                <!-- 1. PROFIL SEKOLAH -->
+                <!-- 1. KUSTOMISASI APLIKASI (FR-APK-01) -->
                 <Border StrokeShape="RoundRectangle 14"
                         BackgroundColor="White"
                         Stroke="#E2E8F0"
                         StrokeThickness="1"
                         Padding="20">
                     <VerticalStackLayout Spacing="14">
-                        <Label Text="1. Profil Lembaga Pendidikan &amp; Hubungan Industri"
+                        <Label Text="1. Kustomisasi &amp; Pengaturan Aplikasi (FR-APK-01)"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="15"/>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Nama Aplikasi *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="AppNameEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Radius Absensi GPS (meter) *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="RadiusEntry" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Deskripsi Aplikasi *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                            <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,8">
+                                <Editor x:Name="AppDescEditor" HeightRequest="50" TextColor="#0F172A" FontSize="13"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Logo Aplikasi *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="LogoEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Favicon Aplikasi *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="FaviconEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Tema Warna (Hex Code) *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="ColorThemeEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Status Pemeliharaan Sistem *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="MaintenanceEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 2. PROFIL SEKOLAH -->
+                <Border StrokeShape="RoundRectangle 14"
+                        BackgroundColor="White"
+                        Stroke="#E2E8F0"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="2. Profil Lembaga Pendidikan &amp; Hubungan Industri"
                                TextColor="#0F172A"
                                FontAttributes="Bold"
                                FontSize="15"/>

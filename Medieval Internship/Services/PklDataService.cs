@@ -17,6 +17,8 @@ public class PklDataService
     private readonly List<MasterStudentModel> _students = [];
     private readonly List<CompanyPartnerModel> _companies = [];
     private readonly List<DepartmentClassModel> _classes = [];
+    private readonly List<VocationalMajorModel> _majors = [];
+    private readonly List<MasterMentorModel> _mentors = [];
     private readonly List<PklPeriodModel> _periods = [];
     private SchoolConfigModel _schoolConfig = new();
 
@@ -29,6 +31,15 @@ public class PklDataService
 
     private void SeedAllData()
     {
+        // 0. Majors (FR-MST-03)
+        _majors.AddRange(new[]
+        {
+            new VocationalMajorModel { Id = "MJR-RPL", MajorCode = "RPL", MajorName = "Rekayasa Perangkat Lunak", Description = "Pengembangan perangkat lunak, sistem web & mobile, cloud computing", Status = 1 },
+            new VocationalMajorModel { Id = "MJR-TKJ", MajorCode = "TKJ", MajorName = "Teknik Komputer dan Jaringan", Description = "Infrastruktur jaringan, routing, switching, dan keamanan siber", Status = 1 },
+            new VocationalMajorModel { Id = "MJR-DKV", MajorCode = "DKV", MajorName = "Desain Komunikasi Visual", Description = "Desain grafis, multimedia, UI/UX, dan periklanan digital", Status = 1 },
+            new VocationalMajorModel { Id = "MJR-SIJA", MajorCode = "SIJA", MajorName = "Sistem Informatika Jaringan dan Aplikasi", Description = "Sistem komputasi awan, IoT, dan otomasi industri", Status = 1 }
+        });
+
         // 1. Periods
         _periods.AddRange(new[]
         {
@@ -50,14 +61,26 @@ public class PklDataService
             }
         });
 
-        // 2. Department & Classes
+        // 2. Department & Classes (FR-MST-02)
         _classes.AddRange(new[]
         {
-            new DepartmentClassModel { MajorName = "Rekayasa Perangkat Lunak (RPL)", ClassName = "XII RPL 1", HomeroomTeacher = "Drs. Bambang Hidayat, M.Kom", TotalStudents = 36 },
-            new DepartmentClassModel { MajorName = "Rekayasa Perangkat Lunak (RPL)", ClassName = "XII RPL 2", HomeroomTeacher = "Ratna Sari, S.Pd", TotalStudents = 35 },
-            new DepartmentClassModel { MajorName = "Teknik Komputer dan Jaringan (TKJ)", ClassName = "XII TKJ 1", HomeroomTeacher = "Ahmad Faisal, S.T", TotalStudents = 34 },
-            new DepartmentClassModel { MajorName = "Desain Komunikasi Visual (DKV)", ClassName = "XII DKV 1", HomeroomTeacher = "Maya Indah, M.Sn", TotalStudents = 36 },
-            new DepartmentClassModel { MajorName = "Sistem Informatika Jaringan dan Aplikasi (SIJA)", ClassName = "XIII SIJA 1", HomeroomTeacher = "Budi Hartono, S.Kom", TotalStudents = 32 }
+            new DepartmentClassModel { Id = "CLS-RPL1", VocationalId = "MJR-RPL", MajorName = "Rekayasa Perangkat Lunak (RPL)", ClassName = "XII RPL 1", AcademicYear = "2026/2027", HomeroomTeacher = "Drs. Bambang Hidayat, M.Kom", Capacity = 36, TotalStudents = 36 },
+            new DepartmentClassModel { Id = "CLS-RPL2", VocationalId = "MJR-RPL", MajorName = "Rekayasa Perangkat Lunak (RPL)", ClassName = "XII RPL 2", AcademicYear = "2026/2027", HomeroomTeacher = "Ratna Sari, S.Pd", Capacity = 36, TotalStudents = 35 },
+            new DepartmentClassModel { Id = "CLS-TKJ1", VocationalId = "MJR-TKJ", MajorName = "Teknik Komputer dan Jaringan (TKJ)", ClassName = "XII TKJ 1", AcademicYear = "2026/2027", HomeroomTeacher = "Ahmad Faisal, S.T", Capacity = 36, TotalStudents = 34 },
+            new DepartmentClassModel { Id = "CLS-DKV1", VocationalId = "MJR-DKV", MajorName = "Desain Komunikasi Visual (DKV)", ClassName = "XII DKV 1", AcademicYear = "2026/2027", HomeroomTeacher = "Maya Indah, M.Sn", Capacity = 36, TotalStudents = 36 },
+            new DepartmentClassModel { Id = "CLS-SIJA1", VocationalId = "MJR-SIJA", MajorName = "Sistem Informatika Jaringan dan Aplikasi (SIJA)", ClassName = "XIII SIJA 1", AcademicYear = "2026/2027", HomeroomTeacher = "Budi Hartono, S.Kom", Capacity = 36, TotalStudents = 32 }
+        });
+
+        // 2b. Mentors (FR-MST-05)
+        _mentors.AddRange(new[]
+        {
+            new MasterMentorModel { Id = "MTR-001", Nip = "19780512 200501 1 003", MentorName = "Drs. Bambang Hidayat, M.Kom", MentorType = "Internal", AssignedClassName = "XII RPL 1", AssignedMajorCode = "RPL" },
+            new MasterMentorModel { Id = "MTR-002", Nip = "19820315 200801 2 004", MentorName = "Ratna Sari, S.Pd", MentorType = "Internal", AssignedClassName = "XII RPL 2", AssignedMajorCode = "RPL" },
+            new MasterMentorModel { Id = "MTR-003", Nip = "19850920 201001 1 008", MentorName = "Ahmad Faisal, S.T", MentorType = "Internal", AssignedClassName = "XII TKJ 1", AssignedMajorCode = "TKJ" },
+            new MasterMentorModel { Id = "MTR-004", Nip = "-", MentorName = "Hendro Wicaksono, S.T.", MentorType = "External", CompanyName = "PT Telkom Indonesia", AssignedStudentName = "Rizky Pratama", AssignedStudentNisn = "0067829102" },
+            new MasterMentorModel { Id = "MTR-005", Nip = "-", MentorName = "Aris Munandar, M.Sc", MentorType = "External", CompanyName = "PT Bank Mandiri", AssignedStudentName = "Anisa Rahmawati", AssignedStudentNisn = "0068910231" },
+            new MasterMentorModel { Id = "MTR-006", Nip = "-", MentorName = "Gunawan Santoso", MentorType = "External", CompanyName = "PT Astra International", AssignedStudentName = "Dimas Surya Anggara", AssignedStudentNisn = "0071239845" },
+            new MasterMentorModel { Id = "MTR-007", Nip = "-", MentorName = "Diana Puspita", MentorType = "External", CompanyName = "PT Media Kreasi Visual", AssignedStudentName = "Salsa Nabila Putri", AssignedStudentNisn = "0064567891" }
         });
 
         // 3. Company Partners (DUDI)
@@ -117,14 +140,17 @@ public class PklDataService
             }
         });
 
-        // 4. Master Students
+        // 4. Master Students (FR-MST-01)
         _students.AddRange(new[]
         {
             new MasterStudentModel
             {
                 Id = "USR-001",
+                UserId = "USR-001",
                 Nisn = "0067829102",
                 FullName = "Rizky Pratama",
+                Gender = "L",
+                ClassroomId = "CLS-RPL1",
                 ClassName = "XII RPL 1",
                 Major = "Rekayasa Perangkat Lunak",
                 CompanyId = "COMP-001",
@@ -133,16 +159,23 @@ public class PklDataService
                 InternalMentorName = "Drs. Bambang Hidayat, M.Kom",
                 ExternalMentorId = "USR-003",
                 ExternalMentorName = "Hendro Wicaksono, S.T.",
+                PhoneNumber = "081234567890",
+                StartDate = new DateTime(2026, 7, 1),
+                EndDate = new DateTime(2026, 9, 30),
                 PeriodId = "GEL-1-2026",
-                StatusPkl = "Aktif Magang",
+                Status = "Active",
+                StatusPkl = "Active",
                 AttendanceRate = 96.5,
                 JournalCount = 42
             },
             new MasterStudentModel
             {
                 Id = "USR-010",
+                UserId = "USR-010",
                 Nisn = "0068910231",
                 FullName = "Anisa Rahmawati",
+                Gender = "P",
+                ClassroomId = "CLS-RPL2",
                 ClassName = "XII RPL 2",
                 Major = "Rekayasa Perangkat Lunak",
                 CompanyId = "COMP-002",
@@ -151,16 +184,23 @@ public class PklDataService
                 InternalMentorName = "Drs. Bambang Hidayat, M.Kom",
                 ExternalMentorId = "USR-011",
                 ExternalMentorName = "Aris Munandar, M.Sc",
+                PhoneNumber = "081234567891",
+                StartDate = new DateTime(2026, 7, 1),
+                EndDate = new DateTime(2026, 9, 30),
                 PeriodId = "GEL-1-2026",
-                StatusPkl = "Aktif Magang",
+                Status = "Active",
+                StatusPkl = "Active",
                 AttendanceRate = 98.2,
                 JournalCount = 44
             },
             new MasterStudentModel
             {
                 Id = "USR-012",
+                UserId = "USR-012",
                 Nisn = "0071239845",
                 FullName = "Dimas Surya Anggara",
+                Gender = "L",
+                ClassroomId = "CLS-TKJ1",
                 ClassName = "XII TKJ 1",
                 Major = "Teknik Komputer dan Jaringan",
                 CompanyId = "COMP-003",
@@ -169,16 +209,23 @@ public class PklDataService
                 InternalMentorName = "Drs. Bambang Hidayat, M.Kom",
                 ExternalMentorId = "USR-013",
                 ExternalMentorName = "Gunawan Santoso",
+                PhoneNumber = "081234567892",
+                StartDate = new DateTime(2026, 7, 1),
+                EndDate = new DateTime(2026, 9, 30),
                 PeriodId = "GEL-1-2026",
-                StatusPkl = "Aktif Magang",
+                Status = "Active",
+                StatusPkl = "Active",
                 AttendanceRate = 91.0,
                 JournalCount = 38
             },
             new MasterStudentModel
             {
                 Id = "USR-014",
+                UserId = "USR-014",
                 Nisn = "0064567891",
                 FullName = "Salsa Nabila Putri",
+                Gender = "P",
+                ClassroomId = "CLS-DKV1",
                 ClassName = "XII DKV 1",
                 Major = "Desain Komunikasi Visual",
                 CompanyId = "COMP-004",
@@ -187,8 +234,12 @@ public class PklDataService
                 InternalMentorName = "Drs. Bambang Hidayat, M.Kom",
                 ExternalMentorId = "USR-015",
                 ExternalMentorName = "Diana Puspita",
+                PhoneNumber = "081234567893",
+                StartDate = new DateTime(2026, 7, 1),
+                EndDate = new DateTime(2026, 9, 30),
                 PeriodId = "GEL-1-2026",
-                StatusPkl = "Aktif Magang",
+                Status = "Active",
+                StatusPkl = "Active",
                 AttendanceRate = 100.0,
                 JournalCount = 45
             }
@@ -494,6 +545,21 @@ public class PklDataService
         string location,
         string notes)
     {
+        // FR-ATD-01: Siswa harus berstatus Active untuk dapat melakukan presensi
+        var student = _students.FirstOrDefault(s => s.Id == studentId || s.Nisn == studentId);
+        if (student != null)
+        {
+            if (student.Status.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+            {
+                return (false, "Presensi ditolak. Akun siswa dalam status 'Inactive' (Tidak Aktif).", null!);
+            }
+            if (student.Status.Equals("Completed", StringComparison.OrdinalIgnoreCase))
+            {
+                return (false, "Presensi ditolak. Masa PKL siswa telah selesai ('Completed').", null!);
+            }
+        }
+
+        // FR-ATD-01: Check-in dibatasi 1x per hari
         var existingToday = _attendances.FirstOrDefault(a => a.StudentId == studentId && a.Date.Date == DateTime.Today);
         if (existingToday != null && existingToday.CheckInTime != "-")
         {
@@ -534,6 +600,11 @@ public class PklDataService
             return (false, "Anda belum melakukan check-in hari ini, lakukan check-in terlebih dahulu.");
         }
 
+        if (record.CheckOutTime != "-")
+        {
+            return (false, "Anda sudah melakukan check-out kepulangan untuk hari ini.");
+        }
+
         var nowTimeStr = DateTime.Now.ToString("HH:mm") + " WIB";
         record.CheckOutTime = nowTimeStr;
         if (!string.IsNullOrWhiteSpace(notes))
@@ -556,7 +627,19 @@ public class PklDataService
         if (record == null)
             return (false, "Data absensi tidak ditemukan.");
 
+        // FR-ATD-05: Catatan WAJIB diisi jika status Ditolak
+        if (!approve && string.IsNullOrWhiteSpace(notes))
+        {
+            return (false, "Catatan alasan penolakan presensi WAJIB diisi!");
+        }
+
         var valStatus = approve ? ValidationStatus.Disetujui : ValidationStatus.Ditolak;
+
+        // Jika ditolak, status presensi diubah menjadi Alpa / tidak dicatat sebagai hadir
+        if (!approve)
+        {
+            record.Status = AttendanceStatus.Alpa;
+        }
 
         if (reviewerRole == UserRole.PembimbingIndustri)
         {
@@ -633,6 +716,23 @@ public class PklDataService
         return (true, "Jurnal harian berhasil dicatat dan diajukan ke pembimbing.", journal);
     }
 
+    // FR-DJL-01: Siswa dapat menghapus jurnal harian yang telah dibuat dengan dialog konfirmasi
+    public (bool Success, string Message) DeleteJournal(string journalId, string requestingUserId, UserRole role)
+    {
+        var journal = _journals.FirstOrDefault(j => j.Id == journalId);
+        if (journal == null)
+            return (false, "Jurnal tidak ditemukan.");
+
+        if (role == UserRole.Siswa && !string.IsNullOrEmpty(journal.StudentId) && journal.StudentId != requestingUserId)
+        {
+            return (false, "Anda hanya berwenang menghapus jurnal harian milik Anda sendiri.");
+        }
+
+        _journals.Remove(journal);
+        DataChanged?.Invoke();
+        return (true, "Jurnal harian berhasil dihapus.");
+    }
+
     public (bool Success, string Message) ReviewJournal(
         string journalId,
         UserRole reviewerRole,
@@ -675,15 +775,55 @@ public class PklDataService
             .ToList();
     }
 
+    // FR-VST-01: Penjadwalan kunjungan tidak boleh bentrok pada tanggal & jam yang sama
     public (bool Success, string Message) AddVisit(SupervisionVisitRecord visit)
     {
         if (string.IsNullOrWhiteSpace(visit.CompanyName))
             return (false, "Nama perusahaan tujuan monitoring wajib diisi.");
 
+        var conflict = _visits.FirstOrDefault(v =>
+            v.VisitDate.Date == visit.VisitDate.Date &&
+            (v.CompanyName.Equals(visit.CompanyName, StringComparison.OrdinalIgnoreCase) ||
+             (v.GuruId == visit.GuruId && !string.IsNullOrEmpty(v.GuruId))));
+
+        if (conflict != null)
+        {
+            return (false, $"Jadwal bentrok! Pada tanggal {visit.VisitDate:dd MMM yyyy} sudah ada agenda kunjungan ke {conflict.CompanyName} oleh {conflict.GuruName}.");
+        }
+
         visit.Id = $"VST-{Guid.NewGuid().ToString()[..6].ToUpper()}";
         _visits.Insert(0, visit);
         DataChanged?.Invoke();
-        return (true, "Data kunjungan monitoring berhasil disimpan ke sistem.");
+        return (true, "Data kunjungan monitoring berhasil dijadwalkan & disimpan ke sistem.");
+    }
+
+    // FR-VST-02: Memperbarui hasil kunjungan (Catatan diskusi & foto dokumentasi WAJIB)
+    public (bool Success, string Message) UpdateVisitResult(
+        string visitId,
+        string supervisionNotes,
+        string documentationProof,
+        string industryFeedback,
+        string followUpRecommendations,
+        string assessment)
+    {
+        var visit = _visits.FirstOrDefault(v => v.Id == visitId);
+        if (visit == null)
+            return (false, "Data kunjungan tidak ditemukan.");
+
+        if (string.IsNullOrWhiteSpace(supervisionNotes))
+            return (false, "Catatan diskusi hasil supervisi WAJIB diisi!");
+
+        if (string.IsNullOrWhiteSpace(documentationProof))
+            return (false, "Foto dokumentasi kunjungan WAJIB diunggah!");
+
+        visit.SupervisionNotes = supervisionNotes;
+        visit.DocumentationProof = documentationProof;
+        if (!string.IsNullOrWhiteSpace(industryFeedback)) visit.IndustryFeedback = industryFeedback;
+        if (!string.IsNullOrWhiteSpace(followUpRecommendations)) visit.FollowUpRecommendations = followUpRecommendations;
+        if (!string.IsNullOrWhiteSpace(assessment)) visit.OverallAssessment = assessment;
+
+        DataChanged?.Invoke();
+        return (true, "Hasil kunjungan supervisi berhasil diperbarui dengan berita acara lengkap.");
     }
 
     // ==========================================
@@ -751,6 +891,7 @@ public class PklDataService
         return _finalReports.OrderByDescending(r => r.UploadDate).ToList();
     }
 
+    // FR-RPT-01: Siswa mengunggah laporan akhir (format PDF), judul dan abstrak wajib diisi
     public (bool Success, string Message, FinalReportRecord Report) SubmitFinalReport(
         string studentId,
         string studentName,
@@ -761,7 +902,10 @@ public class PklDataService
         string fileName)
     {
         if (string.IsNullOrWhiteSpace(title))
-            return (false, "Judul laporan wajib diisi.", new());
+            return (false, "Judul laporan akhir PKL wajib diisi.", new());
+
+        if (string.IsNullOrWhiteSpace(abstractText))
+            return (false, "Abstrak laporan akhir PKL wajib diisi.", new());
 
         var existing = _finalReports.FirstOrDefault(r => r.StudentId == studentId);
         var report = existing ?? new FinalReportRecord
@@ -784,7 +928,32 @@ public class PklDataService
         }
 
         DataChanged?.Invoke();
-        return (true, "Laporan akhir berhasil diunggah. Menunggu penilaian dari pembimbing.", report);
+        return (true, "Laporan akhir berhasil diunggah. Menunggu review & penilaian pembimbing.", report);
+    }
+
+    // FR-RPT-03: Pembimbing Industri dapat memperbarui status laporan akhir (Tahan, Setuju, Revisi) dan CATATAN WAJIB DIISI!
+    public (bool Success, string Message) UpdateReportStatusByIndustri(
+        string reportId,
+        ReportStatus newStatus,
+        string notes)
+    {
+        var report = _finalReports.FirstOrDefault(r => r.Id == reportId);
+        if (report == null)
+            return (false, "Data laporan akhir tidak ditemukan.");
+
+        if (string.IsNullOrWhiteSpace(notes))
+            return (false, "Catatan evaluasi industri WAJIB diisi saat memperbarui status laporan!");
+
+        report.Status = newStatus;
+        report.CatatanIndustri = notes;
+        report.IndustriStatus = newStatus.ToString();
+        if (newStatus == ReportStatus.Revisi)
+        {
+            report.RevisionNotes = notes;
+        }
+
+        DataChanged?.Invoke();
+        return (true, $"Status laporan akhir diperbarui menjadi '{report.StatusText}'. Catatan industri tersimpan.");
     }
 
     public (bool Success, string Message) GradeReportByIndustri(
@@ -832,7 +1001,7 @@ public class PklDataService
         if (report == null)
             return (false, "Laporan tidak ditemukan.");
 
-        report.Status = ReportStatus.PerluRevisi;
+        report.Status = ReportStatus.Revisi;
         report.RevisionNotes = revisionNotes;
 
         DataChanged?.Invoke();
@@ -846,25 +1015,215 @@ public class PklDataService
     public List<MasterStudentModel> GetStudents() => _students;
     public List<CompanyPartnerModel> GetCompanies() => _companies;
     public List<DepartmentClassModel> GetClasses() => _classes;
+    public List<VocationalMajorModel> GetMajors() => _majors;
+    public List<MasterMentorModel> GetMentors() => _mentors;
     public List<PklPeriodModel> GetPeriods() => _periods;
 
-    public void AddStudent(MasterStudentModel student)
+    // FR-MST-01: Tambah Siswa (Validasi tgl mulai < tgl selesai, NISN unik, Telp unik)
+    public (bool Success, string Message) AddStudent(MasterStudentModel student)
     {
+        if (string.IsNullOrWhiteSpace(student.FullName))
+            return (false, "Nama lengkap siswa wajib diisi.");
+
+        if (string.IsNullOrWhiteSpace(student.Nisn))
+            return (false, "NISN siswa wajib diisi.");
+
+        if (student.StartDate >= student.EndDate)
+            return (false, "Tanggal mulai PKL harus lebih awal dari tanggal selesai PKL.");
+
+        if (_students.Any(s => s.Nisn.Equals(student.Nisn, StringComparison.OrdinalIgnoreCase)))
+            return (false, $"Siswa dengan NISN '{student.Nisn}' sudah terdaftar dalam sistem.");
+
+        if (!string.IsNullOrWhiteSpace(student.PhoneNumber) &&
+            _students.Any(s => !string.IsNullOrEmpty(s.PhoneNumber) && s.PhoneNumber.Equals(student.PhoneNumber, StringComparison.OrdinalIgnoreCase)))
+            return (false, $"Nomor telepon '{student.PhoneNumber}' sudah digunakan oleh siswa lain.");
+
         if (string.IsNullOrEmpty(student.Id))
             student.Id = $"STU-{Guid.NewGuid().ToString()[..6].ToUpper()}";
 
+        if (string.IsNullOrEmpty(student.UserId))
+            student.UserId = $"USR-{Guid.NewGuid().ToString()[..6].ToUpper()}";
+
+        student.Status = "Active";
+        student.StatusPkl = "Active";
         _students.Add(student);
         DataChanged?.Invoke();
+        return (true, $"Siswa '{student.FullName}' ({student.Nisn}) berhasil didaftarkan ke sistem.");
     }
 
-    public void AddCompany(CompanyPartnerModel company)
+    // FR-MST-01: Hapus Siswa (Proteksi: Jika memiliki riwayat presensi/jurnal/laporan/kunjungan, TIDAK DAPAT DIHAPUS -> Status diubah Inactive)
+    public (bool Success, string Message) DeleteStudent(string studentId)
     {
+        var student = _students.FirstOrDefault(s => s.Id == studentId || s.Nisn == studentId);
+        if (student == null)
+            return (false, "Data siswa tidak ditemukan.");
+
+        bool hasAttendance = _attendances.Any(a => a.StudentId == student.Id || a.StudentName == student.FullName);
+        bool hasJournal = _journals.Any(j => j.StudentId == student.Id || j.StudentName == student.FullName);
+        bool hasReport = _finalReports.Any(r => r.StudentId == student.Id || r.StudentName == student.FullName);
+        bool hasVisit = _visits.Any(v => v.StudentsMet.Contains(student.FullName, StringComparison.OrdinalIgnoreCase));
+
+        if (hasAttendance || hasJournal || hasReport || hasVisit)
+        {
+            student.Status = "Inactive";
+            student.StatusPkl = "Inactive";
+            DataChanged?.Invoke();
+            return (false, $"Siswa '{student.FullName}' memiliki riwayat data aktif (presensi/jurnal/laporan/kunjungan) sehingga TIDAK DAPAT DIHAPUS. Status otomatis diubah menjadi 'Inactive'.");
+        }
+
+        _students.Remove(student);
+        DataChanged?.Invoke();
+        return (true, $"Data siswa '{student.FullName}' berhasil dihapus permanen.");
+    }
+
+    // FR-MST-02: Tambah Kelas (Nama kelas unik per tahun ajaran)
+    public (bool Success, string Message) AddClass(DepartmentClassModel cl)
+    {
+        if (string.IsNullOrWhiteSpace(cl.ClassName))
+            return (false, "Nama rombel / kelas wajib diisi.");
+
+        if (_classes.Any(c => c.ClassName.Equals(cl.ClassName, StringComparison.OrdinalIgnoreCase) &&
+                              c.AcademicYear.Equals(cl.AcademicYear, StringComparison.OrdinalIgnoreCase)))
+        {
+            return (false, $"Kelas '{cl.ClassName}' sudah ada pada tahun ajaran {cl.AcademicYear}.");
+        }
+
+        if (string.IsNullOrEmpty(cl.Id))
+            cl.Id = $"CLS-{Guid.NewGuid().ToString()[..6].ToUpper()}";
+
+        _classes.Add(cl);
+        DataChanged?.Invoke();
+        return (true, $"Kelas '{cl.ClassName}' berhasil ditambahkan.");
+    }
+
+    // FR-MST-02: Hapus Kelas (Proteksi: Jika kelas memiliki >= 1 siswa, penghapusan DITOLAK)
+    public (bool Success, string Message) DeleteClass(string classId)
+    {
+        var cl = _classes.FirstOrDefault(c => c.Id == classId);
+        if (cl == null)
+            return (false, "Data kelas tidak ditemukan.");
+
+        bool hasStudents = _students.Any(s => s.ClassroomId == classId || s.ClassName.Equals(cl.ClassName, StringComparison.OrdinalIgnoreCase));
+        if (hasStudents)
+        {
+            return (false, $"Penghapusan ditolak! Kelas '{cl.ClassName}' memiliki siswa yang terdaftar di dalamnya.");
+        }
+
+        _classes.Remove(cl);
+        DataChanged?.Invoke();
+        return (true, $"Kelas '{cl.ClassName}' berhasil dihapus.");
+    }
+
+    // FR-MST-03: Jurusan (Program Keahlian)
+    public (bool Success, string Message) AddMajor(VocationalMajorModel major)
+    {
+        if (string.IsNullOrWhiteSpace(major.MajorCode))
+            return (false, "Kode jurusan wajib diisi.");
+        if (string.IsNullOrWhiteSpace(major.MajorName))
+            return (false, "Nama jurusan wajib diisi.");
+
+        if (_majors.Any(m => m.MajorCode.Equals(major.MajorCode, StringComparison.OrdinalIgnoreCase)))
+            return (false, $"Jurusan dengan kode '{major.MajorCode}' sudah terdaftar.");
+
+        if (_majors.Any(m => m.MajorName.Equals(major.MajorName, StringComparison.OrdinalIgnoreCase)))
+            return (false, $"Jurusan dengan nama '{major.MajorName}' sudah terdaftar.");
+
+        if (string.IsNullOrEmpty(major.Id))
+            major.Id = $"MJR-{Guid.NewGuid().ToString()[..6].ToUpper()}";
+
+        _majors.Add(major);
+        DataChanged?.Invoke();
+        return (true, $"Kompetensi keahlian '{major.MajorName}' ({major.MajorCode}) berhasil ditambahkan.");
+    }
+
+    // FR-MST-03: Hapus Jurusan (Proteksi: Jika memiliki >= 1 kelas, penghapusan DITOLAK -> status diubah ke 0 Inactive)
+    public (bool Success, string Message) DeleteMajor(string majorId)
+    {
+        var major = _majors.FirstOrDefault(m => m.Id == majorId);
+        if (major == null)
+            return (false, "Data jurusan tidak ditemukan.");
+
+        bool hasClasses = _classes.Any(c => c.VocationalId == majorId || c.MajorName.Contains(major.MajorCode, StringComparison.OrdinalIgnoreCase));
+        if (hasClasses)
+        {
+            major.Status = 0;
+            DataChanged?.Invoke();
+            return (false, $"Penghapusan ditolak! Jurusan '{major.MajorName}' memiliki relasi kelas aktif. Status diubah menjadi 'Inactive'.");
+        }
+
+        _majors.Remove(major);
+        DataChanged?.Invoke();
+        return (true, $"Jurusan '{major.MajorName}' berhasil dihapus.");
+    }
+
+    // FR-MST-04: Mitra DUDI
+    public (bool Success, string Message) AddCompanyPartner(CompanyPartnerModel company)
+    {
+        if (string.IsNullOrWhiteSpace(company.Name))
+            return (false, "Nama mitra industri wajib diisi.");
+
         if (string.IsNullOrEmpty(company.Id))
             company.Id = $"COMP-{Guid.NewGuid().ToString()[..6].ToUpper()}";
 
         _companies.Add(company);
         DataChanged?.Invoke();
+        return (true, $"Mitra industri '{company.Name}' berhasil didaftarkan.");
     }
+
+    // FR-MST-04: Hapus Mitra DUDI (Proteksi: Jika memiliki riwayat siswa PKL, penghapusan DITOLAK -> status diubah ke 0 Inactive)
+    public (bool Success, string Message) DeleteCompany(string companyId)
+    {
+        var comp = _companies.FirstOrDefault(c => c.Id == companyId);
+        if (comp == null)
+            return (false, "Data perusahaan tidak ditemukan.");
+
+        bool hasStudents = _students.Any(s => s.CompanyId == companyId || s.CompanyName.Equals(comp.Name, StringComparison.OrdinalIgnoreCase));
+        if (hasStudents)
+        {
+            comp.Status = 0;
+            DataChanged?.Invoke();
+            return (false, $"Penghapusan ditolak! Perusahaan '{comp.Name}' memiliki riwayat peserta PKL. Status diubah menjadi 'Inactive'.");
+        }
+
+        _companies.Remove(comp);
+        DataChanged?.Invoke();
+        return (true, $"Mitra industri '{comp.Name}' berhasil dihapus.");
+    }
+
+    // FR-MST-05: Pembimbing
+    public (bool Success, string Message) AddMentor(MasterMentorModel mentor)
+    {
+        if (string.IsNullOrWhiteSpace(mentor.MentorName))
+            return (false, "Nama pembimbing wajib diisi.");
+
+        if (string.IsNullOrEmpty(mentor.Id))
+            mentor.Id = $"MTR-{Guid.NewGuid().ToString()[..6].ToUpper()}";
+
+        _mentors.Add(mentor);
+        DataChanged?.Invoke();
+        return (true, $"Pembimbing '{mentor.MentorName}' ({mentor.MentorType}) berhasil ditambahkan.");
+    }
+
+    public (bool Success, string Message) DeleteMentor(string mentorId)
+    {
+        var mentor = _mentors.FirstOrDefault(m => m.Id == mentorId);
+        if (mentor == null)
+            return (false, "Data pembimbing tidak ditemukan.");
+
+        bool hasAssigned = _students.Any(s => s.InternalMentorId == mentorId || s.ExternalMentorId == mentorId ||
+                                              s.InternalMentorName.Equals(mentor.MentorName, StringComparison.OrdinalIgnoreCase) ||
+                                              s.ExternalMentorName.Equals(mentor.MentorName, StringComparison.OrdinalIgnoreCase));
+        if (hasAssigned)
+        {
+            return (false, $"Penghapusan ditolak! Pembimbing '{mentor.MentorName}' sedang membimbing siswa aktif.");
+        }
+
+        _mentors.Remove(mentor);
+        DataChanged?.Invoke();
+        return (true, $"Pembimbing '{mentor.MentorName}' berhasil dihapus.");
+    }
+
+    public void AddCompany(CompanyPartnerModel company) => AddCompanyPartner(company);
 
     public void AddPeriod(PklPeriodModel period)
     {
@@ -1200,5 +1559,34 @@ public class PklDataService
     {
         _schoolConfig = config;
         DataChanged?.Invoke();
+    }
+
+    // FR-APK-01: Admin dapat mengkustomisasi nama aplikasi, deskripsi, logo, favicon, radius absensi, status pemeliharaan, tema warna. Semua field wajib diisi.
+    public (bool Success, string Message) UpdateSchoolConfigStrict(SchoolConfigModel config)
+    {
+        if (string.IsNullOrWhiteSpace(config.ApplicationName))
+            return (false, "Nama aplikasi wajib diisi!");
+
+        if (string.IsNullOrWhiteSpace(config.ApplicationDescription))
+            return (false, "Deskripsi aplikasi wajib diisi!");
+
+        if (string.IsNullOrWhiteSpace(config.SchoolName))
+            return (false, "Nama institusi / sekolah wajib diisi!");
+
+        if (string.IsNullOrWhiteSpace(config.Npsn))
+            return (false, "NPSN institusi wajib diisi!");
+
+        if (string.IsNullOrWhiteSpace(config.ColorTheme))
+            return (false, "Tema warna aplikasi wajib diisi!");
+
+        if (string.IsNullOrWhiteSpace(config.MaintenanceStatus))
+            return (false, "Status pemeliharaan wajib diisi!");
+
+        if (config.AttendanceRadiusMeters <= 0)
+            return (false, "Radius absensi harus lebih besar dari 0 meter!");
+
+        _schoolConfig = config;
+        DataChanged?.Invoke();
+        return (true, "Konfigurasi aplikasi dan sekolah berhasil diperbarui!");
     }
 }

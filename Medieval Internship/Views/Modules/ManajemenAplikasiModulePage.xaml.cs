@@ -27,6 +27,16 @@ public partial class ManajemenAplikasiModulePage : ContentPage
     private void LoadConfig()
     {
         var config = _dataService.GetSchoolConfig();
+        // FR-APK-01 fields
+        AppNameEntry.Text = config.ApplicationName;
+        AppDescEditor.Text = config.ApplicationDescription;
+        LogoEntry.Text = config.Logo;
+        FaviconEntry.Text = config.Favicon;
+        RadiusEntry.Text = config.AttendanceRadiusMeters.ToString();
+        ColorThemeEntry.Text = config.ColorTheme;
+        MaintenanceEntry.Text = config.MaintenanceStatus;
+
+        // School fields
         SchoolNameEntry.Text = config.SchoolName;
         NpsnEntry.Text = config.Npsn;
         PrincipalEntry.Text = config.PrincipalName;
@@ -47,8 +57,18 @@ public partial class ManajemenAplikasiModulePage : ContentPage
     private void OnSaveConfigClicked(object? sender, EventArgs e)
     {
         var config = _dataService.GetSchoolConfig();
-        config.SchoolName = SchoolNameEntry.Text?.Trim() ?? config.SchoolName;
-        config.Npsn = NpsnEntry.Text?.Trim() ?? config.Npsn;
+        // FR-APK-01 fields
+        config.ApplicationName = AppNameEntry.Text?.Trim() ?? string.Empty;
+        config.ApplicationDescription = AppDescEditor.Text?.Trim() ?? string.Empty;
+        config.Logo = LogoEntry.Text?.Trim() ?? string.Empty;
+        config.Favicon = FaviconEntry.Text?.Trim() ?? string.Empty;
+        config.ColorTheme = ColorThemeEntry.Text?.Trim() ?? string.Empty;
+        config.MaintenanceStatus = MaintenanceEntry.Text?.Trim() ?? string.Empty;
+        if (int.TryParse(RadiusEntry.Text, out int rad))
+            config.AttendanceRadiusMeters = rad;
+
+        config.SchoolName = SchoolNameEntry.Text?.Trim() ?? string.Empty;
+        config.Npsn = NpsnEntry.Text?.Trim() ?? string.Empty;
         config.PrincipalName = PrincipalEntry.Text?.Trim() ?? config.PrincipalName;
         config.HubinCoordinator = HubinLeadEntry.Text?.Trim() ?? config.HubinCoordinator;
         config.Address = AddressEditor.Text?.Trim() ?? config.Address;
@@ -69,9 +89,8 @@ public partial class ManajemenAplikasiModulePage : ContentPage
         config.Youtube = YoutubeEntry.Text?.Trim() ?? config.Youtube;
         config.HelpdeskContact = HelpdeskEntry.Text?.Trim() ?? config.HelpdeskContact;
 
-        _dataService.UpdateSchoolConfig(config);
-
-        ShowBanner("Pengaturan profil sekolah & konfigurasi aplikasi berhasil diperbarui!", isError: false);
+        var (success, msg) = _dataService.UpdateSchoolConfigStrict(config);
+        ShowBanner(msg, isError: !success);
     }
 
     private void ShowBanner(string message, bool isError)

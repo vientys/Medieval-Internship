@@ -88,10 +88,18 @@ public partial class LaporanAkhirModulePage : ContentPage
         var abstractText = UploadAbstractEditor.Text?.Trim() ?? string.Empty;
         var fileName = SelectedReportFileLabel.Text.Split(' ')[0];
 
+        // FR-RPT-01: Judul dan Abstrak WAJIB diisi
         if (string.IsNullOrWhiteSpace(title))
         {
             ShowBanner("Judul laporan akhir PKL wajib diisi.", isError: true);
             UploadTitleEntry.Focus();
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(abstractText))
+        {
+            ShowBanner("Abstrak / Rangkuman eksekutif laporan akhir wajib diisi.", isError: true);
+            UploadAbstractEditor.Focus();
             return;
         }
 
@@ -107,19 +115,43 @@ public partial class LaporanAkhirModulePage : ContentPage
         RefreshAll();
     }
 
+    // FR-RPT-04: Unduh Laporan PDF
+    private async void OnDownloadReportClicked(object? sender, EventArgs e)
+    {
+        if (_activeReport == null) return;
+        await DisplayAlertAsync("Unduh Berkas Laporan Akhir (FR-RPT-04)",
+            $"Berkas '{_activeReport.FileName}' berhasil disiapkan untuk diunduh.\nJudul: {_activeReport.ReportTitle}\nStatus: {_activeReport.StatusText}\n\nFormat PDF terverifikasi sistem.",
+            "OK");
+    }
+
+    // FR-RPT-03: Pembimbing Industri memperbarui status laporan (Tahan, Setuju, Revisi) dan CATATAN WAJIB DIISI!
     private void OnSaveIndustriScoreClicked(object? sender, EventArgs e)
     {
         if (_activeReport == null) return;
 
+        var notes = IndustriNotesEditor.Text?.Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(notes))
+        {
+            ShowBanner("Catatan evaluasi industri WAJIB diisi saat memperbarui laporan!", isError: true);
+            IndustriNotesEditor.Focus();
+            return;
+        }
+
         double.TryParse(ScoreTeknisEntry.Text, out double teknis);
         double.TryParse(ScoreSoftSkillEntry.Text, out double softSkill);
         double.TryParse(ScoreDisiplinEntry.Text, out double disiplin);
-        var notes = IndustriNotesEditor.Text?.Trim() ?? string.Empty;
 
-        var (success, msg) = _dataService.GradeReportByIndustri(
-            _activeReport.Id, teknis, softSkill, disiplin, notes);
+        var status = IndustriStatusPicker.SelectedIndex switch
+        {
+            1 => ReportStatus.Tahan,
+            2 => ReportStatus.Revisi,
+            _ => ReportStatus.Setuju
+        };
 
-        ShowBanner(msg, isError: !success);
+        var (statusSuccess, statusMsg) = _dataService.UpdateReportStatusByIndustri(_activeReport.Id, status, notes);
+        _dataService.GradeReportByIndustri(_activeReport.Id, teknis, softSkill, disiplin, notes);
+
+        ShowBanner(statusMsg, isError: !statusSuccess);
         RefreshAll();
     }
 

@@ -8,6 +8,7 @@ namespace Medieval_Internship
         {
             InitializeComponent();
 
+
             Routing.RegisterRoute(nameof(AbsensiModulePage), typeof(AbsensiModulePage));
             Routing.RegisterRoute(nameof(JurnalHarianModulePage), typeof(JurnalHarianModulePage));
             Routing.RegisterRoute(nameof(MonitoringKunjunganModulePage), typeof(MonitoringKunjunganModulePage));

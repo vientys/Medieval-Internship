@@ -184,6 +184,36 @@ public partial class JurnalHarianModulePage : ContentPage
 
             stack.Children.Add(footerGrid);
 
+            // FR-DJL-01: Siswa dapat menghapus jurnal harian yang telah dibuat dengan dialog konfirmasi
+            if (_currentUser?.Role == UserRole.Siswa || _currentUser?.Role == UserRole.Admin)
+            {
+                var actionRow = new HorizontalStackLayout { HorizontalOptions = LayoutOptions.End, Margin = new Thickness(0, 4, 0, 0) };
+                var delBtn = new Button
+                {
+                    Text = "🗑️ Hapus Jurnal",
+                    BackgroundColor = Color.FromArgb("#FEE2E2"),
+                    TextColor = Color.FromArgb("#DC2626"),
+                    FontSize = 11,
+                    HeightRequest = 30,
+                    Padding = new Thickness(10, 0),
+                    CornerRadius = 6
+                };
+                var capturedJournal = j;
+                delBtn.Clicked += async (s, e) =>
+                {
+                    var confirm = await DisplayAlertAsync("Konfirmasi Hapus Jurnal (FR-DJL-01)",
+                        $"Apakah Anda yakin ingin menghapus catatan jurnal \"{capturedJournal.ActivityTitle}\"?",
+                        "Ya, Hapus", "Batal");
+                    if (!confirm) return;
+
+                    var (success, msg) = _dataService.DeleteJournal(capturedJournal.Id, _currentUser?.Id ?? "", _currentUser?.Role ?? UserRole.Siswa);
+                    ShowBanner(msg, isError: !success);
+                    RefreshAll();
+                };
+                actionRow.Children.Add(delBtn);
+                stack.Children.Add(actionRow);
+            }
+
             card.Content = stack;
             JournalsContainer.Children.Add(card);
         }

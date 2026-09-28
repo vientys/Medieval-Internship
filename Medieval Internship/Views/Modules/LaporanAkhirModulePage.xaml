@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.Modules.LaporanAkhirModulePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <!-- TOP BAR -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Padding="16,12"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Grid.Column="0"
+                        Text="← Kembali"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#1E293B"
+                        TextColor="White"
+                        FontSize="12"
+                        HeightRequest="36"
+                        Padding="12,0"
+                        CornerRadius="8"/>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                    <Label Text="MODUL LAPORAN AKHIR PKL &amp; PENILAIAN"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="UserRoleSubtitle"
+                           Text="Unggah Berkas Laporan, Validasi Pembimbing &amp; Transkrip Kelulusan"
+                           TextColor="#94A3B8"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#6366F1"
+                        Padding="10,4"
+                        StrokeThickness="0">
+                    <Label Text="🎓 Sidang PKL"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="12"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- TABS -->
+        <Border Grid.Row="1"
+                BackgroundColor="White"
+                Stroke="#E2E8F0"
+                StrokeThickness="1"
+                Padding="16,8">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="TabStatusBtn"
+                        Text="📖 Laporan &amp; Unggah"
+                        Clicked="OnTabStatusClicked"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabIndustriBtn"
+                        Text="🏢 Nilai Industri"
+                        Clicked="OnTabIndustriClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabGuruBtn"
+                        Text="👨‍🏫 Nilai Guru &amp; Sidang"
+                        Clicked="OnTabGuruClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabTranscriptBtn"
+                        Text="🏆 Transkrip Kelulusan"
+                        Clicked="OnTabTranscriptClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- MAIN SCROLL -->
+        <ScrollView Grid.Row="2" Orientation="Vertical">
+            <VerticalStackLayout Padding="20" Spacing="16" MaximumWidthRequest="900" HorizontalOptions="Center">
+
+                <!-- STATUS BANNER -->
+                <Border x:Name="StatusBanner"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        BackgroundColor="#ECFDF5"
+                        Stroke="#6EE7B7">
+                    <Label x:Name="StatusLabel" TextColor="#065F46" FontSize="13"/>
+                </Border>
+
+                <!-- ================= TAB 1: LAPORAN & UNGGAH (SISWA) ================= -->
+                <VerticalStackLayout x:Name="SectionStatus" Spacing="16">
+
+                    <!-- REPORT STATUS CARD -->
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="#1E3A5F"
+                            Padding="20"
+                            StrokeThickness="0">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                <Label Text="STATUS LAPORAN AKHIR"
+                                       TextColor="#93C5FD"
+                                       FontSize="11"
+                                       FontAttributes="Bold"/>
+                                <Label x:Name="ReportStatusTitle"
+                                       Text="Rancang Bangun Otomasi CI/CD &amp; Microservice"
+                                       TextColor="White"
+                                       FontSize="17"
+                                       FontAttributes="Bold"/>
+                                <Label x:Name="ReportStatusDesc"
+                                       Text="Status: Menunggu Review Pembimbing • Terakhir Diunggah: 26 Sep 2026"
+                                       TextColor="#E2E8F0"
+                                       FontSize="12"/>
+                            </VerticalStackLayout>
+                            <Border Grid.Column="1"
+                                    x:Name="ReportStatusBadge"
+                                    StrokeShape="RoundRectangle 12"
+                                    BackgroundColor="#D97706"
+                                    Padding="10,4"
+                                    VerticalOptions="Center"
+                                    StrokeThickness="0">
+                                <Label x:Name="ReportStatusBadgeText"
+                                       Text="Menunggu Review"
+                                       TextColor="White"
+                                       FontSize="11"
+                                       FontAttributes="Bold"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- REVISION NOTES NOTICE (IF ANY) -->
+                    <Border x:Name="RevisionNoticeBorder"
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#FFFBEB"
+                            Stroke="#FDE68A"
+                            Padding="16"
+                            IsVisible="True">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="📌 Catatan Revisi Pembimbing:"
+                                   TextColor="#92400E"
+                                   FontAttributes="Bold"
+                                   FontSize="13"/>
+                            <Label x:Name="RevisionNotesLabel"
+                                   Text="Perbaiki sistematika daftar pustaka sesuai standar IEEE format dan lengkapi screenshot hasil pengujian di Bab 4."
+                                   TextColor="#78350F"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- UPLOAD FORM -->
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="White"
+                            Stroke="#E2E8F0"
+                            StrokeThickness="1"
+                            Padding="20">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Unggah / Perbarui Berkas Laporan Akhir PKL"
+                                   TextColor="#0F172A"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+
+                            <!-- Judul Laporan -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Judul Lengkap Laporan PKL *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,0">
+                                    <Entry x:Name="UploadTitleEntry"
+                                           Text="Rancang Bangun Otomasi CI/CD dan Container Orchestration pada Microservice Telkom"
+                                           TextColor="#0F172A"
+                                           FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Abstrak -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Abstrak / Rangkuman Eksekutif Laporan *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="UploadAbstractEditor"
+                                            Text="Laporan ini membahas perancangan arsitektur pipeline otomatisasi testing dan container orchestration pada platform microservice staging Telkom Indonesia."
+                                            TextColor="#0F172A"
+                                            HeightRequest="70"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- File Dokumen PDF Bab 1-5 -->
+                            <Border StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="#EFF6FF"
+                                    Stroke="#BFDBFE"
+                                    Padding="14">
+                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                    <Label Grid.Column="0" Text="📑" FontSize="22" VerticalOptions="Center" Margin="0,0,10,0"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="Berkas Laporan PDF Lengkap (Bab 1 s/d Bab 5) *"
+                                               TextColor="#1E3A5F"
+                                               FontSize="12"
+                                               FontAttributes="Bold"/>
+                                        <Label x:Name="SelectedReportFileLabel"
+                                               Text="Laporan_PKL_Rizky_Pratama_XII_RPL_1.pdf (Ukuran: 6.4 MB)"
+                                               TextColor="#2563EB"
+                                               FontSize="11"/>
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="2"
+                                            Text="Ganti File"
+                                            Clicked="OnChooseReportFileClicked"
+                                            BackgroundColor="#2563EB"
+                                            TextColor="White"
+                                            FontSize="11"
+                                            HeightRequest="32"
+                                            Padding="10,0"
+                                            CornerRadius="6"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Submit Button -->
+                            <Button Text="Unggah &amp; Ajukan Laporan Akhir PKL 📤"
+                                    Clicked="OnSubmitReportClicked"
+                                    BackgroundColor="#1E3A5F"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    HeightRequest="46"
+                                    CornerRadius="10"
+                                    Margin="0,8,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 2: PENILAIAN INDUSTRI ================= -->
+                <VerticalStackLayout x:Name="SectionIndustri" Spacing="16" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#EEF2FF"
+                            Stroke="#C7D2FE"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Formulir Penilaian Kinerja Industri oleh Pembimbing DUDI"
+                                   TextColor="#3730A3"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+                            <Label Text="Penilaian meliputi penguasaan kompetensi teknis, kemampuan komunikasi, inisiatif, dan kedisiplinan kerja selama praktik di perusahaan (Skala 0 - 100)."
+                                   TextColor="#4338CA"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="White"
+                            Stroke="#E2E8F0"
+                            StrokeThickness="1"
+                            Padding="20">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Input Nilai Kinerja Siswa di DUDI"
+                                   TextColor="#0F172A"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+
+                            <!-- Nilai Teknis -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="1. Keterampilan Teknis &amp; Hasil Kerja (Hard Skill) [0 - 100] *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="ScoreTeknisEntry" Text="94.0" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Nilai Soft Skill -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="2. Kerjasama Tim &amp; Komunikasi (Soft Skill) [0 - 100] *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="ScoreSoftSkillEntry" Text="96.0" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Nilai Disiplin -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="3. Kedisiplinan, Kehadiran &amp; K3 [0 - 100] *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="ScoreDisiplinEntry" Text="95.0" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Catatan Evaluasi Mentor Industri -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Catatan &amp; Evaluasi Mentor Industri"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,8">
+                                    <Editor x:Name="IndustriNotesEditor"
+                                            Text="Siswa memiliki problem solving dan adaptasi teknologi cloud yang sangat cepat. Siap direkrut industri."
+                                            TextColor="#0F172A"
+                                            HeightRequest="60"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Button Text="Simpan Penilaian Industri ⭐"
+                                    Clicked="OnSaveIndustriScoreClicked"
+                                    BackgroundColor="#6366F1"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    HeightRequest="46"
+                                    CornerRadius="10"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 3: PENILAIAN GURU & SIDANG ================= -->
+                <VerticalStackLayout x:Name="SectionGuru" Spacing="16" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#EFF6FF"
+                            Stroke="#BFDBFE"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Formulir Penilaian Laporan &amp; Ujian Sidang Sekolah"
+                                   TextColor="#1E3A5F"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+                            <Label Text="Guru Pembimbing mengevaluasi sistematika penulisan laporan ilmiah PKL, penguasaan materi pada saat sidang presentasi, dan menentukan kelulusan."
+                                   TextColor="#2563EB"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="White"
+                            Stroke="#E2E8F0"
+                            StrokeThickness="1"
+                            Padding="20">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Input Nilai Guru &amp; Validasi Kelulusan Sidang"
+                                   TextColor="#0F172A"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+
+                            <!-- Nilai Laporan -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="1. Nilai Kualitas Laporan Ilmiah PKL [0 - 100] *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="ScoreLaporanEntry" Text="91.0" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Nilai Sidang -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="2. Nilai Ujian Sidang &amp; Presentasi [0 - 100] *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="ScoreSidangEntry" Text="93.0" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Catatan Guru & Revisi -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Catatan Bimbingan / Arahan Guru"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,8">
+                                    <Editor x:Name="GuruNotesEditor"
+                                            Text="Dokumentasi diagram arsitektur cloud sangat baik. Presentasi sidang lancar dan menguasai materi."
+                                            TextColor="#0F172A"
+                                            HeightRequest="60"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Buttons: Approve Sidang or Request Revision -->
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                                <Button Grid.Column="0"
+                                        Text="✏️ Minta Revisi Bab"
+                                        Clicked="OnRequestRevisionClicked"
+                                        BackgroundColor="#F59E0B"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        HeightRequest="44"
+                                        CornerRadius="10"/>
+
+                                <Button Grid.Column="1"
+                                        Text="🎓 Sahkan Kelulusan Sidang"
+                                        Clicked="OnSaveGuruScoreClicked"
+                                        BackgroundColor="#10B981"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        HeightRequest="44"
+                                        CornerRadius="10"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 4: TRANSKRIP KELULUSAN ================= -->
+                <VerticalStackLayout x:Name="SectionTranscript" Spacing="16" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="#1E3A5F"
+                            Padding="20"
+                            StrokeThickness="0">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="TRANSKRIP NILAI KOMPREHENSIF PKL"
+                                   TextColor="#93C5FD"
+                                   FontSize="11"
+                                   FontAttributes="Bold"/>
+                            <Label x:Name="FinalStudentNameLabel"
+                                   Text="Rizky Pratama • XII RPL 1"
+                                   TextColor="White"
+                                   FontSize="18"
+                                   FontAttributes="Bold"/>
+                            <Label x:Name="FinalCompanyLabel"
+                                   Text="Tempat Praktik: PT Telkom Indonesia (Divisi Cloud)"
+                                   TextColor="#E2E8F0"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Score Cards -->
+                    <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
+                        <Border Grid.Column="0" StrokeShape="RoundRectangle 12" BackgroundColor="White" Stroke="#E2E8F0" Padding="14">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Nilai DUDI (60%)" TextColor="#64748B" FontSize="11"/>
+                                <Label x:Name="TranscriptDudiLabel" Text="95.0" TextColor="#6366F1" FontSize="20" FontAttributes="Bold"/>
+                                <Label Text="Sangat Baik" TextColor="#6366F1" FontSize="10" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Grid.Column="1" StrokeShape="RoundRectangle 12" BackgroundColor="White" Stroke="#E2E8F0" Padding="14">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Nilai Guru (40%)" TextColor="#64748B" FontSize="11"/>
+                                <Label x:Name="TranscriptGuruLabel" Text="92.0" TextColor="#2563EB" FontSize="20" FontAttributes="Bold"/>
+                                <Label Text="Sangat Baik" TextColor="#2563EB" FontSize="10" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Grid.Column="2" StrokeShape="RoundRectangle 12" BackgroundColor="#ECFDF5" Stroke="#A7F3D0" Padding="14">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Nilai Akhir" TextColor="#065F46" FontSize="11" FontAttributes="Bold"/>
+                                <Label x:Name="TranscriptFinalScoreLabel" Text="93.8" TextColor="#059669" FontSize="20" FontAttributes="Bold"/>
+                                <Label x:Name="TranscriptGradeLabel" Text="Predikat A" TextColor="#059669" FontSize="10" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <!-- Certificate & Export Button -->
+                    <Button Text="Cetak Lembar Pengesahan &amp; Sertifikat PKL (PDF) 📜"
+                            Clicked="OnPrintCertificateClicked"
+                            BackgroundColor="#10B981"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            HeightRequest="46"
+                            CornerRadius="10"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

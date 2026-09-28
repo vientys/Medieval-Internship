@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.Modules.MonitoringKunjunganModulePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <!-- TOP BAR -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Padding="16,12"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Grid.Column="0"
+                        Text="← Kembali"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#1E293B"
+                        TextColor="White"
+                        FontSize="12"
+                        HeightRequest="36"
+                        Padding="12,0"
+                        CornerRadius="8"/>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                    <Label Text="MODUL MONITORING &amp; KUNJUNGAN PEMBIMBING"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="UserRoleSubtitle"
+                           Text="Supervisi Lapangan, Catatan Monev &amp; Evaluasi DUDI"
+                           TextColor="#94A3B8"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#8B5CF6"
+                        Padding="10,4"
+                        StrokeThickness="0">
+                    <Label Text="🚗 Supervisi DUDI"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="12"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- TABS -->
+        <Border Grid.Row="1"
+                BackgroundColor="White"
+                Stroke="#E2E8F0"
+                StrokeThickness="1"
+                Padding="16,8">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="TabListBtn"
+                        Text="📋 Riwayat Kunjungan"
+                        Clicked="OnTabListClicked"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabAddBtn"
+                        Text="➕ Catat Kunjungan Baru"
+                        Clicked="OnTabAddClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabMonevBtn"
+                        Text="📈 Ringkasan &amp; Analisis Monev"
+                        Clicked="OnTabMonevClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- MAIN SCROLL -->
+        <ScrollView Grid.Row="2" Orientation="Vertical">
+            <VerticalStackLayout Padding="20" Spacing="16" MaximumWidthRequest="900" HorizontalOptions="Center">
+
+                <!-- STATUS BANNER -->
+                <Border x:Name="StatusBanner"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        BackgroundColor="#ECFDF5"
+                        Stroke="#6EE7B7">
+                    <Label x:Name="StatusLabel" TextColor="#065F46" FontSize="13"/>
+                </Border>
+
+                <!-- ================= TAB 1: RIWAYAT KUNJUNGAN ================= -->
+                <VerticalStackLayout x:Name="SectionList" Spacing="14">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Daftar Pelaksanaan Kunjungan Guru ke Lokasi PKL"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Catat Kunjungan"
+                                Clicked="OnTabAddClicked"
+                                BackgroundColor="#8B5CF6"
+                                TextColor="White"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="VisitsContainer" Spacing="12">
+                        <!-- Dynamic visits -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 2: CATAT KUNJUNGAN BARU ================= -->
+                <VerticalStackLayout x:Name="SectionAdd" Spacing="16" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="White"
+                            Stroke="#E2E8F0"
+                            StrokeThickness="1"
+                            Padding="20">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Formulir Berita Acara &amp; Kunjungan Monitoring Guru"
+                                   TextColor="#0F172A"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+
+                            <!-- Perusahaan Mitra DUDI -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Perusahaan Mitra yang Dikunjungi *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="10,0">
+                                    <Picker x:Name="CompanyPicker"
+                                            Title="Pilih Perusahaan Mitra"
+                                            TextColor="#0F172A">
+                                        <Picker.Items>
+                                            <x:String>PT Telkom Indonesia (Landmark Tower)</x:String>
+                                            <x:String>PT Bank Mandiri (Digital Lab)</x:String>
+                                            <x:String>PT Astra International Tbk</x:String>
+                                            <x:String>PT Media Kreasi Visual</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Metode Kunjungan & Siswa Ditemui -->
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Metode Supervisi *"
+                                           TextColor="#334155"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                    <Border StrokeShape="RoundRectangle 8"
+                                            BackgroundColor="#F8FAFC"
+                                            Stroke="#CBD5E1"
+                                            Padding="10,0">
+                                        <Picker x:Name="VisitTypePicker"
+                                                Title="Pilih Metode"
+                                                TextColor="#0F172A">
+                                            <Picker.Items>
+                                                <x:String>Onsite (Kunjungan Langsung ke DUDI)</x:String>
+                                                <x:String>Daring (Virtual Meeting &amp; Review Code)</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="Siswa Bimbingan yang Ditemui *"
+                                           TextColor="#334155"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                    <Border StrokeShape="RoundRectangle 8"
+                                            BackgroundColor="#F8FAFC"
+                                            Stroke="#CBD5E1"
+                                            Padding="12,0">
+                                        <Entry x:Name="StudentsMetEntry"
+                                               Placeholder="Contoh: Rizky Pratama, Kevin Jonathan"
+                                               TextColor="#0F172A"
+                                               FontSize="13"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Hasil Monitoring -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Catatan Hasil Monitoring Guru Supervisi *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="SupervisionNotesEditor"
+                                            Placeholder="Uraikan evaluasi kedisiplinan, adaptasi lingkungan kerja, dan perkembangan kompetensi siswa..."
+                                            TextColor="#0F172A"
+                                            HeightRequest="80"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Masukan Mentor DUDI -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Masukan / Evaluasi dari Mentor Industri"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="IndustryFeedbackEditor"
+                                            Placeholder="Tanggapan mentor industri terhadap performa siswa dan masukan perbaikan kurikulum..."
+                                            TextColor="#0F172A"
+                                            HeightRequest="60"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Rekomendasi Tindak Lanjut -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Rekomendasi Tindak Lanjut"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="FollowUpEditor"
+                                            Placeholder="Langkah bimbingan selanjutnya atau koordinasi lanjutan dengan pihak DUDI..."
+                                            TextColor="#0F172A"
+                                            HeightRequest="60"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Bukti Foto Kunjungan -->
+                            <Border StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="#F5F3FF"
+                                    Stroke="#DDD6FE"
+                                    Padding="14">
+                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                    <Label Grid.Column="0" Text="📷" FontSize="22" VerticalOptions="Center" Margin="0,0,10,0"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="Dokumentasi Kunjungan (Foto Bersama Siswa &amp; DUDI) *"
+                                               TextColor="#6D28D9"
+                                               FontSize="12"
+                                               FontAttributes="Bold"/>
+                                        <Label x:Name="VisitProofLabel"
+                                               Text="foto_kunjungan_monev_smk.jpg (Ukuran: 2.1 MB)"
+                                               TextColor="#7C3AED"
+                                               FontSize="11"/>
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="2"
+                                            Text="Pilih Berkas"
+                                            Clicked="OnChooseVisitProofClicked"
+                                            BackgroundColor="#7C3AED"
+                                            TextColor="White"
+                                            FontSize="11"
+                                            HeightRequest="32"
+                                            Padding="10,0"
+                                            CornerRadius="6"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Submit Button -->
+                            <Button Text="Simpan &amp; Terbitkan Lembar Monitoring →"
+                                    Clicked="OnSubmitVisitClicked"
+                                    BackgroundColor="#1E3A5F"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    HeightRequest="46"
+                                    CornerRadius="10"
+                                    Margin="0,8,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 3: RINGKASAN & ANALISIS MONEV ================= -->
+                <VerticalStackLayout x:Name="SectionMonev" Spacing="16" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="#0D9488"
+                            Padding="20"
+                            StrokeThickness="0">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="EVALUASI MAKR0 MONITORING &amp; KUNJUNGAN"
+                                   TextColor="#CCFBF1"
+                                   FontSize="11"
+                                   FontAttributes="Bold"/>
+                            <Label Text="Ketercapaian Supervisi Lapangan: 100% Target Tercapai"
+                                   TextColor="White"
+                                   FontSize="18"
+                                   FontAttributes="Bold"/>
+                            <Label Text="Seluruh mitra industri telah dikunjungi secara berkala oleh guru pendamping sekolah. Bahan evaluasi siap dijadikan dasar perpanjangan MoU kerja sama DUDI."
+                                   TextColor="#E6FFFA"
+                                   FontSize="13"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                        <Border Grid.Column="0"
+                                StrokeShape="RoundRectangle 12"
+                                BackgroundColor="White"
+                                Stroke="#E2E8F0"
+                                Padding="16">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Rata-rata Skor Evaluasi" TextColor="#64748B" FontSize="11"/>
+                                <Label Text="96.2 / 100" TextColor="#0D9488" FontSize="20" FontAttributes="Bold"/>
+                                <Label Text="Predikat A (Sangat Memuaskan)" TextColor="#10B981" FontSize="11" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Grid.Column="1"
+                                StrokeShape="RoundRectangle 12"
+                                BackgroundColor="White"
+                                Stroke="#E2E8F0"
+                                Padding="16">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Total Perusahaan Terjangkau" TextColor="#64748B" FontSize="11"/>
+                                <Label Text="54 Mitra DUDI" TextColor="#2563EB" FontSize="20" FontAttributes="Bold"/>
+                                <Label Text="100% Memiliki Pembimbing Industri" TextColor="#2563EB" FontSize="11" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

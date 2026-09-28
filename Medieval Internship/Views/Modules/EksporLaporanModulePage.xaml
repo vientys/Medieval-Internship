@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.Modules.EksporLaporanModulePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- TOP BAR -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Padding="16,12"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Grid.Column="0"
+                        Text="← Kembali"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#1E293B"
+                        TextColor="White"
+                        FontSize="12"
+                        HeightRequest="36"
+                        Padding="12,0"
+                        CornerRadius="8"/>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                    <Label Text="MODUL DASHBOARD &amp; PELAPORAN"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="UserRoleSubtitle"
+                           Text="Statistik Real-time &amp; Ekspor Laporan Resmi (PDF / Excel)"
+                           TextColor="#94A3B8"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#10B981"
+                        Padding="10,4"
+                        StrokeThickness="0">
+                    <Label Text="📊 Ekspor Laporan"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="12"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- MAIN SCROLL -->
+        <ScrollView Grid.Row="1" Orientation="Vertical">
+            <VerticalStackLayout Padding="20" Spacing="18" MaximumWidthRequest="950" HorizontalOptions="Center">
+
+                <!-- 1. STATISTIK KILAS INTELIJEN PKL -->
+                <Border StrokeShape="RoundRectangle 14"
+                        BackgroundColor="#1E3A5F"
+                        Padding="20"
+                        StrokeThickness="0">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="IKHTISAR STATISTIK PELAKSANAAN PKL TERPADU"
+                               TextColor="#93C5FD"
+                               FontSize="11"
+                               FontAttributes="Bold"/>
+                        <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="185 Siswa" TextColor="White" FontSize="18" FontAttributes="Bold"/>
+                                <Label Text="Total Peserta" TextColor="#CBD5E1" FontSize="11"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="54 Mitra" TextColor="#10B981" FontSize="18" FontAttributes="Bold"/>
+                                <Label Text="DUDI Terverifikasi" TextColor="#CBD5E1" FontSize="11"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="2" Spacing="2">
+                                <Label Text="96.5%" TextColor="#38BDF8" FontSize="18" FontAttributes="Bold"/>
+                                <Label Text="Tingkat Presensi" TextColor="#CBD5E1" FontSize="11"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="3" Spacing="2">
+                                <Label Text="98.4%" TextColor="#FBBF24" FontSize="18" FontAttributes="Bold"/>
+                                <Label Text="Capaian Mutu" TextColor="#CBD5E1" FontSize="11"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 2. PILIHAN JENIS LAPORAN & FORMAT EKSPOR -->
+                <Border StrokeShape="RoundRectangle 14"
+                        BackgroundColor="White"
+                        Stroke="#E2E8F0"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Konfigurasi Ekspor Laporan PKL"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="15"/>
+
+                        <!-- Jenis Laporan Picker -->
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Pilih Jenis Laporan yang Ingin Diekspor *"
+                                   TextColor="#334155"
+                                   FontSize="12"
+                                   FontAttributes="Bold"/>
+                            <Border StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="#F8FAFC"
+                                    Stroke="#CBD5E1"
+                                    Padding="10,0">
+                                <Picker x:Name="ReportTypePicker"
+                                        Title="Pilih Jenis Laporan"
+                                        TextColor="#0F172A">
+                                    <Picker.Items>
+                                        <x:String>Rekapitulasi Kehadiran &amp; Absensi Siswa</x:String>
+                                        <x:String>Rekapitulasi Jurnal Aktivitas Harian Siswa</x:String>
+                                        <x:String>Laporan Monitoring &amp; Kunjungan Supervisi Guru</x:String>
+                                        <x:String>Rekapitulasi Nilai &amp; Transkrip Evaluasi Akhir PKL</x:String>
+                                    </Picker.Items>
+                                </Picker>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Format Ekspor Segmented Buttons -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Pilih Format Dokumen Ekspor *"
+                                   TextColor="#334155"
+                                   FontSize="12"
+                                   FontAttributes="Bold"/>
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                                <Button x:Name="FormatExcelBtn"
+                                        Grid.Column="0"
+                                        Text="📗 Microsoft Excel (.CSV / .XLSX)"
+                                        Clicked="OnFormatExcelClicked"
+                                        BackgroundColor="#10B981"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        FontSize="12"
+                                        HeightRequest="42"
+                                        CornerRadius="8"/>
+
+                                <Button x:Name="FormatPdfBtn"
+                                        Grid.Column="1"
+                                        Text="📄 Dokumen Cetak Resmi (PDF / TXT)"
+                                        Clicked="OnFormatPdfClicked"
+                                        BackgroundColor="#F1F5F9"
+                                        TextColor="#475569"
+                                        FontAttributes="Bold"
+                                        FontSize="12"
+                                        HeightRequest="42"
+                                        CornerRadius="8"/>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <!-- Tombol Generate -->
+                        <Button Text="Generate &amp; Unduh Laporan Sekarang 📥"
+                                Clicked="OnGenerateReportClicked"
+                                BackgroundColor="#1E3A5F"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                HeightRequest="46"
+                                CornerRadius="10"
+                                Margin="0,8,0,0"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 3. HASIL EKSPOR & PRATINJAU -->
+                <Border x:Name="ResultCard"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 14"
+                        BackgroundColor="White"
+                        Stroke="#10B981"
+                        StrokeThickness="1.5"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="Laporan Berhasil Dibuat! 🎉"
+                                       TextColor="#059669"
+                                       FontAttributes="Bold"
+                                       FontSize="15"/>
+                                <Label x:Name="ResultFileInfoLabel"
+                                       Text="Format: Microsoft Excel • Ukuran: 142 KB • 42 Baris Data"
+                                       TextColor="#64748B"
+                                       FontSize="12"/>
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="Buka Berkas"
+                                    Clicked="OnOpenGeneratedFileClicked"
+                                    BackgroundColor="#10B981"
+                                    TextColor="White"
+                                    FontSize="11"
+                                    FontAttributes="Bold"
+                                    HeightRequest="32"
+                                    Padding="12,0"
+                                    CornerRadius="6"/>
+                        </Grid>
+
+                        <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" Padding="12">
+                            <Label x:Name="ResultPathLabel"
+                                   Text="Path: C:\Users\ThinkPad\AppData\Local\..."
+                                   TextColor="#334155"
+                                   FontSize="11"
+                                   FontFamily="Consolas"
+                                   LineBreakMode="CharacterWrap"/>
+                        </Border>
+
+                        <Label Text="Pratinjau Isi Dokumen Laporan:"
+                               TextColor="#334155"
+                               FontAttributes="Bold"
+                               FontSize="12"/>
+
+                        <Border StrokeShape="RoundRectangle 8" BackgroundColor="#0F172A" Padding="12">
+                            <ScrollView HeightRequest="180">
+                                <Label x:Name="ResultPreviewLabel"
+                                       Text="..."
+                                       TextColor="#38BDF8"
+                                       FontFamily="Consolas"
+                                       FontSize="11"/>
+                            </ScrollView>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

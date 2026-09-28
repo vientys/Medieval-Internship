@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.OperatorDashboardPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- ================= TOP APP BAR ================= -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Stroke="Transparent"
+                Padding="20,14"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+
+                <!-- Left: Brand & Operator Badge -->
+                <HorizontalStackLayout Grid.Column="0" Spacing="12" VerticalOptions="Center">
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#1E293B"
+                            Stroke="#334155"
+                            StrokeThickness="1"
+                            Padding="6"
+                            HeightRequest="36"
+                            WidthRequest="36">
+                        <Image Source="logo_smk.png" Aspect="AspectFit"/>
+                    </Border>
+                    <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="PKL MONITOR"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="15"
+                                   VerticalOptions="Center"/>
+                            <Border StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    Padding="8,2"
+                                    BackgroundColor="#D97706"
+                                    VerticalOptions="Center">
+                                <Label Text="📋 Operator PKL"
+                                       TextColor="White"
+                                       FontSize="11"
+                                       FontAttributes="Bold"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                        <Label x:Name="HeaderOrgLabel"
+                               Text="BKK &amp; Hubungan Industri • SMK Negeri 1 Jakarta"
+                               TextColor="#94A3B8"
+                               FontSize="11"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+                <!-- Right: User Avatar & Logout Button -->
+                <HorizontalStackLayout Grid.Column="2" Spacing="10" VerticalOptions="Center">
+                    <Border StrokeShape="RoundRectangle 18"
+                            HeightRequest="36"
+                            WidthRequest="36"
+                            Stroke="#B45309"
+                            StrokeThickness="1"
+                            BackgroundColor="#D97706">
+                        <Label x:Name="AvatarInitialsLabel"
+                               Text="OP"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               FontSize="13"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                        <Label x:Name="UserNameLabel"
+                               Text="Operator Sekolah"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               FontSize="13"/>
+                        <Label Text="Unit BKK &amp; Penempatan"
+                               TextColor="#FDE68A"
+                               FontSize="11"/>
+                    </VerticalStackLayout>
+
+                    <Button Text="Keluar"
+                            Clicked="OnLogoutClicked"
+                            BackgroundColor="#334155"
+                            TextColor="#F1F5F9"
+                            FontSize="12"
+                            HeightRequest="34"
+                            Padding="12,0"
+                            CornerRadius="8"
+                            Margin="8,0,0,0"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- ================= MAIN SCROLLABLE CONTENT ================= -->
+        <ScrollView Grid.Row="1" Orientation="Vertical">
+            <VerticalStackLayout Padding="24" Spacing="20" MaximumWidthRequest="1200" HorizontalOptions="Center">
+
+                <!-- 1. WELCOME HERO CARD -->
+                <Border StrokeShape="RoundRectangle 16"
+                        BackgroundColor="#78350F"
+                        Stroke="Transparent"
+                        Padding="24"
+                        StrokeThickness="0">
+                    <VerticalStackLayout Spacing="14">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Koordinator Administrasi, Surat Tugas &amp; Penempatan DUDI"
+                                       TextColor="#FDE68A"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Label x:Name="HeroWelcomeTitle"
+                                       Text="Pusat Administrasi &amp; Penempatan PKL 📋"
+                                       TextColor="White"
+                                       FontSize="22"
+                                       FontAttributes="Bold"/>
+                                <Label Text="Kelola plotting siswa ke mitra DUDI, verifikasi berkas administrasi dan penerbitan dokumen resmi berkop sekolah."
+                                       TextColor="#FEF3C7"
+                                       FontSize="13"
+                                       LineBreakMode="WordWrap"/>
+                            </VerticalStackLayout>
+
+                            <Border Grid.Column="1"
+                                    StrokeShape="RoundRectangle 24"
+                                    BackgroundColor="#D97706"
+                                    Stroke="#F59E0B"
+                                    StrokeThickness="1"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="End">
+                                <Label Text="📋"
+                                       FontSize="22"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Progress Bar Section -->
+                        <VerticalStackLayout Spacing="6" Margin="0,4,0,0">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="Capaian Penempatan Siswa (172 / 185 Siswa)"
+                                       TextColor="#FEF3C7"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Label Grid.Column="1"
+                                       Text="93% Sudah Ditempatkan"
+                                       TextColor="White"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                            </Grid>
+                            <ProgressBar Progress="0.93"
+                                         ProgressColor="#FBBF24"
+                                         BackgroundColor="#451A03"
+                                         HeightRequest="8"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 2. STAT CARDS -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Statistik Administrasi &amp; Penempatan"
+                           TextColor="#1E293B"
+                           FontAttributes="Bold"
+                           FontSize="16"/>
+
+                    <FlexLayout x:Name="StatCardsContainer"
+                                Wrap="Wrap"
+                                JustifyContent="SpaceBetween"
+                                AlignItems="Stretch">
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- 3. QUICK ACTIONS SECTION -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Menu &amp; Aksi Operator PKL"
+                           TextColor="#1E293B"
+                           FontAttributes="Bold"
+                           FontSize="16"/>
+
+                    <FlexLayout x:Name="QuickActionsContainer"
+                                Wrap="Wrap"
+                                JustifyContent="SpaceBetween"
+                                AlignItems="Stretch">
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- 4. DOCUMENTS LIST SECTION -->
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Berkas &amp; Dokumen Resmi PKL"
+                               TextColor="#1E293B"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Terbitkan Dokumen"
+                                Clicked="OnAddDocumentClicked"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                FontSize="12"
+                                BackgroundColor="#D97706"
+                                TextColor="White"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="DocumentsListContainer" Spacing="10">
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- 5. FOOTER -->
+                <Border StrokeShape="RoundRectangle 12"
+                        BackgroundColor="#F1F5F9"
+                        Stroke="Transparent"
+                        Padding="16"
+                        Margin="0,10,0,20">
+                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                        <Label Text="Aplikasi PKL Monitor Vokasi • Versi 2.4.0 Build 2026"
+                               TextColor="#64748B"
+                               FontSize="11"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Direktorat Sekolah Menengah Kejuruan • Kementerian Pendidikan &amp; Kebudayaan"
+                               TextColor="#94A3B8"
+                               FontSize="10"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

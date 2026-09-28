@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.Modules.ManajemenAplikasiModulePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- TOP BAR -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Padding="16,12"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Grid.Column="0"
+                        Text="← Kembali"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#1E293B"
+                        TextColor="White"
+                        FontSize="12"
+                        HeightRequest="36"
+                        Padding="12,0"
+                        CornerRadius="8"/>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                    <Label Text="MODUL MANAJEMEN APLIKASI"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="UserRoleSubtitle"
+                           Text="Profil Sekolah, Konfigurasi Sistem, Media Sosial &amp; Kontak Bantuan"
+                           TextColor="#94A3B8"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#D97706"
+                        Padding="10,4"
+                        StrokeThickness="0">
+                    <Label Text="⚙️ Pengaturan"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="12"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- MAIN SCROLL -->
+        <ScrollView Grid.Row="1" Orientation="Vertical">
+            <VerticalStackLayout Padding="20" Spacing="16" MaximumWidthRequest="900" HorizontalOptions="Center">
+
+                <!-- STATUS BANNER -->
+                <Border x:Name="StatusBanner"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        BackgroundColor="#ECFDF5"
+                        Stroke="#6EE7B7">
+                    <Label x:Name="StatusLabel" TextColor="#065F46" FontSize="13"/>
+                </Border>
+
+                <!-- 1. PROFIL SEKOLAH -->
+                <Border StrokeShape="RoundRectangle 14"
+                        BackgroundColor="White"
+                        Stroke="#E2E8F0"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="1. Profil Lembaga Pendidikan &amp; Hubungan Industri"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="15"/>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Nama Sekolah / Institusi *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="SchoolNameEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Nomor Pokok Sekolah Nasional (NPSN) *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="NpsnEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Kepala Sekolah *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="PrincipalEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Koordinator Hubungan Industri (BKK/Hubin) *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="HubinLeadEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Alamat Lengkap Kampus Sekolah *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                            <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,8">
+                                <Editor x:Name="AddressEditor" HeightRequest="60" TextColor="#0F172A" FontSize="13"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 2. KONFIGURASI SISTEM & KEBIJAKAN PKL -->
+                <Border StrokeShape="RoundRectangle 14"
+                        BackgroundColor="White"
+                        Stroke="#E2E8F0"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="2. Parameter Sistem &amp; Kebijakan Kelulusan PKL"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="15"/>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Tahun Ajaran Aktif *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="AcademicYearEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Minimal Kehadiran untuk Syarat Kelulusan (%) *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="MinAttendanceEntry" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Jam Kerja Masuk DUDI *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="WorkStartTimeEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Masa Aktif Sesi Pengguna (Session Timeout Menit) *" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="SessionTimeoutEntry" Keyboard="Numeric" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 3. MEDIA SOSIAL & KONTAK BANTUAN -->
+                <Border StrokeShape="RoundRectangle 14"
+                        BackgroundColor="White"
+                        Stroke="#E2E8F0"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="3. Media Sosial, Logo &amp; Kontak Bantuan Aplikasi"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="15"/>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Website Resmi Sekolah" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="WebsiteEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Akun Instagram Resmi" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="InstagramEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Channel YouTube Resmi" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="YoutubeEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Nomor Helpdesk Support PKL" TextColor="#334155" FontSize="12" FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" Padding="12,0">
+                                    <Entry x:Name="HelpdeskEntry" TextColor="#0F172A" FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Tombol Simpan -->
+                        <Button Text="Simpan Perubahan Pengaturan Aplikasi 💾"
+                                Clicked="OnSaveConfigClicked"
+                                BackgroundColor="#1E3A5F"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                HeightRequest="46"
+                                CornerRadius="10"
+                                Margin="0,8,0,0"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

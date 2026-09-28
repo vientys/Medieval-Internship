@@ -4,11 +4,50 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Medieval_Internship"
-    Title="Medieval_Internship">
+    xmlns:views="clr-namespace:Medieval_Internship.Views"
+    Title="PKL Monitor"
+    FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar Shell.TabBarIsVisible="False">
+        <ShellContent
+            Title="Auth"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+
+        <ShellContent
+            Title="Admin"
+            ContentTemplate="{DataTemplate views:AdminDashboardPage}"
+            Route="AdminDashboardPage" />
+
+        <ShellContent
+            Title="Siswa"
+            ContentTemplate="{DataTemplate views:SiswaDashboardPage}"
+            Route="SiswaDashboardPage" />
+
+        <ShellContent
+            Title="Guru"
+            ContentTemplate="{DataTemplate views:GuruDashboardPage}"
+            Route="GuruDashboardPage" />
+
+        <ShellContent
+            Title="Industri"
+            ContentTemplate="{DataTemplate views:IndustriDashboardPage}"
+            Route="IndustriDashboardPage" />
+
+        <ShellContent
+            Title="Operator"
+            ContentTemplate="{DataTemplate views:OperatorDashboardPage}"
+            Route="OperatorDashboardPage" />
+
+        <ShellContent
+            Title="Monitor"
+            ContentTemplate="{DataTemplate views:MonitorDashboardPage}"
+            Route="MonitorDashboardPage" />
+
+        <ShellContent
+            Title="Dashboard"
+            ContentTemplate="{DataTemplate views:DashboardPage}"
+            Route="DashboardPage" />
+    </TabBar>
 
 </Shell>

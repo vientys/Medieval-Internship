@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.Modules.MasterDataModulePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <!-- TOP BAR -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Padding="16,12"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Grid.Column="0"
+                        Text="← Kembali"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#1E293B"
+                        TextColor="White"
+                        FontSize="12"
+                        HeightRequest="36"
+                        Padding="12,0"
+                        CornerRadius="8"/>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                    <Label Text="MODUL MANAJEMEN MASTER DATA"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="UserRoleSubtitle"
+                           Text="Master Siswa, DUDI Mitra, Jurusan, Kelas &amp; Impor Data Terpadu"
+                           TextColor="#94A3B8"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#7C3AED"
+                        Padding="10,4"
+                        StrokeThickness="0">
+                    <Label Text="⚙️ Master Data"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="12"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- TABS -->
+        <Border Grid.Row="1"
+                BackgroundColor="White"
+                Stroke="#E2E8F0"
+                StrokeThickness="1"
+                Padding="16,8">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="TabStudentsBtn"
+                        Text="👨‍🎓 Data Siswa"
+                        Clicked="OnTabStudentsClicked"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabCompaniesBtn"
+                        Text="🏢 Mitra DUDI"
+                        Clicked="OnTabCompaniesClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabImportBtn"
+                        Text="📥 Impor Data (CSV)"
+                        Clicked="OnTabImportClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabClassesBtn"
+                        Text="🏫 Jurusan &amp; Kelas"
+                        Clicked="OnTabClassesClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- MAIN SCROLL -->
+        <ScrollView Grid.Row="2" Orientation="Vertical">
+            <VerticalStackLayout Padding="20" Spacing="16" MaximumWidthRequest="950" HorizontalOptions="Center">
+
+                <!-- STATUS BANNER -->
+                <Border x:Name="StatusBanner"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        BackgroundColor="#ECFDF5"
+                        Stroke="#6EE7B7">
+                    <Label x:Name="StatusLabel" TextColor="#065F46" FontSize="13"/>
+                </Border>
+
+                <!-- ================= TAB 1: DATA SISWA ================= -->
+                <VerticalStackLayout x:Name="SectionStudents" Spacing="14">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Master Data Siswa Peserta PKL"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Tambah Siswa"
+                                Clicked="OnAddStudentPromptClicked"
+                                BackgroundColor="#7C3AED"
+                                TextColor="White"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="StudentsListContainer" Spacing="10">
+                        <!-- Populated dynamically -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 2: MITRA DUDI ================= -->
+                <VerticalStackLayout x:Name="SectionCompanies" Spacing="14" IsVisible="False">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Master Perusahaan Mitra Industri (DUDI)"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Tambah Mitra DUDI"
+                                Clicked="OnAddCompanyPromptClicked"
+                                BackgroundColor="#2563EB"
+                                TextColor="White"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="CompaniesListContainer" Spacing="10">
+                        <!-- Populated dynamically -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 3: FITUR IMPOR DATA (CSV) ================= -->
+                <VerticalStackLayout x:Name="SectionImport" Spacing="16" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#F5F3FF"
+                            Stroke="#DDD6FE"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Modul Impor Data Terpadu (Format CSV / Excel)"
+                                   TextColor="#6D28D9"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+                            <Label Text="Fitur ini mempermudah operator &amp; admin mengimpor data ratusan siswa atau mitra perusahaan secara massal ke dalam sistem PKL Monitor."
+                                   TextColor="#5B21B6"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Import Type Selector -->
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                        <Border StrokeShape="RoundRectangle 8" BackgroundColor="White" Stroke="#CBD5E1" Padding="10,0">
+                            <Picker x:Name="ImportTypePicker" Title="Pilih Jenis Data Impor" TextColor="#0F172A">
+                                <Picker.Items>
+                                    <x:String>Data Siswa Peserta PKL (CSV)</x:String>
+                                    <x:String>Data Mitra Perusahaan DUDI (CSV)</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </Border>
+                        <Button Text="Muat Contoh Template Data"
+                                Clicked="OnLoadSampleCsvClicked"
+                                BackgroundColor="#EFF6FF"
+                                TextColor="#2563EB"
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <!-- CSV Text Input -->
+                    <Border StrokeShape="RoundRectangle 12" BackgroundColor="White" Stroke="#E2E8F0" Padding="16">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Tempel (Paste) Konten CSV atau Edit Baris di Bawah:"
+                                   TextColor="#334155"
+                                   FontAttributes="Bold"
+                                   FontSize="13"/>
+                            <Editor x:Name="CsvEditor"
+                                    HeightRequest="150"
+                                    FontFamily="Consolas"
+                                    FontSize="12"
+                                    TextColor="#0F172A"/>
+                            <Button Text="Proses &amp; Impor Data Sekarang 📥"
+                                    Clicked="OnExecuteImportClicked"
+                                    BackgroundColor="#10B981"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    HeightRequest="44"
+                                    CornerRadius="10"
+                                    Margin="0,8,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 4: JURUSAN & KELAS ================= -->
+                <VerticalStackLayout x:Name="SectionClasses" Spacing="14" IsVisible="False">
+                    <Label Text="Daftar Kompetensi Keahlian &amp; Rombongan Belajar (Rombel)"
+                           TextColor="#0F172A"
+                           FontAttributes="Bold"
+                           FontSize="16"/>
+
+                    <VerticalStackLayout x:Name="ClassesListContainer" Spacing="10">
+                        <!-- Populated dynamically -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

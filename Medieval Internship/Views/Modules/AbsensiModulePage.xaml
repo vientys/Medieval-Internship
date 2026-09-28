@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.Modules.AbsensiModulePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <!-- TOP BAR -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Padding="16,12"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Grid.Column="0"
+                        Text="← Kembali"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#1E293B"
+                        TextColor="White"
+                        FontSize="12"
+                        HeightRequest="36"
+                        Padding="12,0"
+                        CornerRadius="8"/>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                    <Label Text="MODUL ABSENSI HARIAN PKL"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="UserRoleSubtitle"
+                           Text="Pencatatan &amp; Validasi Kehadiran Siswa PKL"
+                           TextColor="#94A3B8"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#10B981"
+                        Padding="10,4"
+                        StrokeThickness="0">
+                    <Label x:Name="LiveTimeLabel"
+                           Text="08:00 WIB"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="12"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- TABS -->
+        <Border Grid.Row="1"
+                BackgroundColor="White"
+                Stroke="#E2E8F0"
+                StrokeThickness="1"
+                Padding="16,8">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="TabCheckInBtn"
+                        Text="📍 Presensi Hari Ini"
+                        Clicked="OnTabCheckInClicked"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabHistoryBtn"
+                        Text="📅 Riwayat Kehadiran"
+                        Clicked="OnTabHistoryClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabValidationBtn"
+                        Text="✅ Validasi Pembimbing"
+                        Clicked="OnTabValidationClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- CONTENT SCROLLER -->
+        <ScrollView Grid.Row="2" Orientation="Vertical">
+            <VerticalStackLayout Padding="20" Spacing="16" MaximumWidthRequest="900" HorizontalOptions="Center">
+
+                <!-- STATUS MESSAGE BANNER -->
+                <Border x:Name="StatusBanner"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        BackgroundColor="#ECFDF5"
+                        Stroke="#6EE7B7">
+                    <Label x:Name="StatusLabel" TextColor="#065F46" FontSize="13"/>
+                </Border>
+
+                <!-- ================= TAB 1: PRESENSI HARI INI ================= -->
+                <VerticalStackLayout x:Name="SectionCheckIn" Spacing="16">
+
+                    <!-- TODAY STATUS CARD -->
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="#1E3A5F"
+                            Padding="20"
+                            StrokeThickness="0">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                <Label Text="STATUS PRESENSI HARI INI"
+                                       TextColor="#93C5FD"
+                                       FontSize="11"
+                                       FontAttributes="Bold"/>
+                                <Label x:Name="TodayDateLabel"
+                                       Text="Senin, 29 September 2026"
+                                       TextColor="White"
+                                       FontSize="18"
+                                       FontAttributes="Bold"/>
+                                <Label x:Name="TodaySummaryLabel"
+                                       Text="Belum melakukan check-in hari ini."
+                                       TextColor="#E2E8F0"
+                                       FontSize="13"/>
+                            </VerticalStackLayout>
+                            <Border Grid.Column="1"
+                                    StrokeShape="RoundRectangle 24"
+                                    BackgroundColor="#2563EB"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    StrokeThickness="0">
+                                <Label Text="🕒"
+                                       FontSize="22"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- FORM CHECK-IN / CHECK-OUT -->
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="White"
+                            Stroke="#E2E8F0"
+                            StrokeThickness="1"
+                            Padding="20">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Formulir Kehadiran Siswa PKL"
+                                   TextColor="#0F172A"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+
+                            <!-- Status Kehadiran Picker -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Status Kehadiran *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="10,0">
+                                    <Picker x:Name="StatusPicker"
+                                            Title="Pilih Status Kehadiran"
+                                            TextColor="#0F172A">
+                                        <Picker.Items>
+                                            <x:String>Hadir (Tepat Waktu di DUDI)</x:String>
+                                            <x:String>Izin (Keperluan Resmi / Sekolah)</x:String>
+                                            <x:String>Sakit (Dengan Surat Dokter)</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Lokasi Presensi (GPS / DUDI) -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Lokasi Kerja / Mitra DUDI *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,0">
+                                    <Entry x:Name="LocationEntry"
+                                           Text="PT Telkom Indonesia Landmark Tower (Valid GPS - Radius 15m)"
+                                           TextColor="#0F172A"
+                                           FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Catatan / Rangkuman -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Catatan Aktivitas / Keterangan Kehadiran"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="NotesEditor"
+                                            Placeholder="Tuliskan catatan pagi / pekerjaan hari ini atau alasan izin..."
+                                            TextColor="#0F172A"
+                                            HeightRequest="70"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Foto Bukti / Selfie -->
+                            <Border StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="#F1F5F9"
+                                    Stroke="#CBD5E1"
+                                    Padding="12">
+                                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                                    <Label Text="📷" FontSize="20" VerticalOptions="Center"/>
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="Bukti Kehadiran / Geotag Selfie"
+                                               TextColor="#334155"
+                                               FontSize="12"
+                                               FontAttributes="Bold"/>
+                                        <Label Text="Tervalidasi kamera &amp; timestamp perangkat"
+                                               TextColor="#64748B"
+                                               FontSize="11"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Border>
+
+                            <!-- Action Buttons -->
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,8,0,0">
+                                <Button Grid.Column="0"
+                                        x:Name="CheckInBtn"
+                                        Text="📍 Presensi Masuk (Check-In)"
+                                        Clicked="OnSubmitCheckInClicked"
+                                        BackgroundColor="#10B981"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        HeightRequest="44"
+                                        CornerRadius="10"/>
+
+                                <Button Grid.Column="1"
+                                        x:Name="CheckOutBtn"
+                                        Text="🚪 Presensi Pulang (Check-Out)"
+                                        Clicked="OnSubmitCheckOutClicked"
+                                        BackgroundColor="#2563EB"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        HeightRequest="44"
+                                        CornerRadius="10"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 2: RIWAYAT KEHADIRAN ================= -->
+                <VerticalStackLayout x:Name="SectionHistory" Spacing="14" IsVisible="False">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Riwayat Kehadiran Siswa PKL"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Border Grid.Column="1"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="#EFF6FF"
+                                Padding="8,4"
+                                StrokeThickness="0">
+                            <Label x:Name="AttendanceSummaryRateLabel"
+                                   Text="Tingkat Kehadiran: 96.5%"
+                                   TextColor="#2563EB"
+                                   FontSize="11"
+                                   FontAttributes="Bold"/>
+                        </Border>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="HistoryCardsContainer" Spacing="10">
+                        <!-- Populated dynamically -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 3: VALIDASI PEMBIMBING ================= -->
+                <VerticalStackLayout x:Name="SectionValidation" Spacing="14" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#FEF3C7"
+                            Stroke="#FCD34D"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Pusat Validasi Kehadiran &amp; Evaluasi Kriteria PKL"
+                                   TextColor="#92400E"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+                            <Label Text="Guru Pembimbing dan Pembimbing Industri dapat memeriksa kehadiran harian peserta magang. Jika siswa memenuhi kriteria yang dibutuhkan (kehadiran minimal, kedisiplinan), maka kegiatan PKL dapat disetujui untuk kelulusan."
+                                   TextColor="#B45309"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Label Text="Daftar Absensi Menunggu Validasi Pembimbing"
+                           TextColor="#0F172A"
+                           FontAttributes="Bold"
+                           FontSize="15"/>
+
+                    <VerticalStackLayout x:Name="ValidationListContainer" Spacing="10">
+                        <!-- Populated dynamically -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

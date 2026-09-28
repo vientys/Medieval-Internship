@@ -1,69 +1,582 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Medieval_Internship.MainPage"
-             BackgroundColor="#F5F5F5">
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="30,60,30,30" Spacing="20">
+    <ScrollView Orientation="Vertical">
+        <Grid>
+            <!-- Decorative Top Gradient Background -->
+            <Border BackgroundColor="#0F172A"
+                    HeightRequest="240"
+                    VerticalOptions="Start"
+                    StrokeThickness="0"/>
 
-            <Image Source="logo_smk.png"
-                   HeightRequest="110"
-                   WidthRequest="110"
-                   HorizontalOptions="Center"
-                   Aspect="AspectFit"/>
+            <!-- Main Content Stack -->
+            <VerticalStackLayout Padding="20,40,20,40"
+                                 Spacing="20"
+                                 MaximumWidthRequest="500"
+                                 HorizontalOptions="Center">
 
-            <Label Text="PKL Monitoring"
-                   FontSize="28"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#1E3A5F"/>
+                <!-- 1. BRAND HEADER -->
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Border StrokeShape="RoundRectangle 26"
+                            BackgroundColor="White"
+                            Stroke="#3B82F6"
+                            StrokeThickness="2"
+                            Padding="8"
+                            HeightRequest="84"
+                            WidthRequest="84"
+                            HorizontalOptions="Center">
+                        <Border.Shadow>
+                            <Shadow Brush="#000000" Offset="0,6" Radius="12" Opacity="0.25"/>
+                        </Border.Shadow>
+                        <Image Source="logo_smk.png"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
 
-            <Label Text="Sistem Monitoring Praktik Kerja Lapangan"
-                   FontSize="14"
-                   HorizontalOptions="Center"
-                   TextColor="Gray"/>
+                    <Label Text="PKL MONITOR"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           CharacterSpacing="1.2"/>
 
-            <Border Padding="20"
-                    Stroke="Transparent"
-                    BackgroundColor="White"
-                    Margin="0,30,0,0">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="12"/>
-                </Border.StrokeShape>
-
-                <VerticalStackLayout Spacing="15">
-
-                    <Label Text="Masuk sebagai" FontAttributes="Bold"/>
-
-                    <Picker x:Name="RolePicker" Title="Pilih Role">
-                        <Picker.Items>
-                            <x:String>Admin</x:String>
-                            <x:String>Operator</x:String>
-                            <x:String>Siswa</x:String>
-                            <x:String>Guru Pendamping</x:String>
-                            <x:String>Pembimbing Industri</x:String>
-                            <x:String>Monitor</x:String>
-                        </Picker.Items>
-                    </Picker>
-
-                    <Entry x:Name="UsernameEntry" Placeholder="Username" />
-                    <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
-
-                    <Button Text="Masuk"
-                            Clicked="OnLoginClicked"
-                            BackgroundColor="#1E3A5F"
-                            TextColor="White"
-                            CornerRadius="8"/>
-
-                    <Label x:Name="StatusLabel"
-                           FontSize="12"
-                           TextColor="Red"
-                           HorizontalOptions="Center"/>
-
+                    <Border StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#1E293B"
+                            Stroke="#334155"
+                            StrokeThickness="1"
+                            Padding="12,3"
+                            HorizontalOptions="Center">
+                        <Label Text="PLATFORM MONITORING PKL VOKASI"
+                               TextColor="#93C5FD"
+                               FontSize="11"
+                               FontAttributes="Bold"/>
+                    </Border>
                 </VerticalStackLayout>
-            </Border>
 
-        </VerticalStackLayout>
+                <!-- 2. MAIN CARD -->
+                <Border StrokeShape="RoundRectangle 20"
+                        BackgroundColor="White"
+                        Stroke="#E2E8F0"
+                        StrokeThickness="1"
+                        Padding="24,28">
+                    <Border.Shadow>
+                        <Shadow Brush="#0F172A" Offset="0,8" Radius="20" Opacity="0.08"/>
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="20">
+
+                        <!-- SEGMENTED TAB SWITCHER (Masuk vs Daftar) -->
+                        <Border StrokeShape="RoundRectangle 14"
+                                BackgroundColor="#F1F5F9"
+                                Stroke="#E2E8F0"
+                                StrokeThickness="1"
+                                Padding="4">
+                            <Grid ColumnDefinitions="*, *">
+                                <Button x:Name="TabLoginBtn"
+                                        Grid.Column="0"
+                                        Text="🔐 Masuk Akun"
+                                        Clicked="OnTabLoginClicked"
+                                        HeightRequest="40"
+                                        FontSize="13"
+                                        FontAttributes="Bold"
+                                        CornerRadius="10"
+                                        BackgroundColor="#1E3A5F"
+                                        TextColor="White"/>
+
+                                <Button x:Name="TabRegisterBtn"
+                                        Grid.Column="1"
+                                        Text="📝 Daftar Baru"
+                                        Clicked="OnTabRegisterClicked"
+                                        HeightRequest="40"
+                                        FontSize="13"
+                                        FontAttributes="Bold"
+                                        CornerRadius="10"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#64748B"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- STATUS MESSAGE BANNER -->
+                        <Border x:Name="StatusBanner"
+                                StrokeShape="RoundRectangle 10"
+                                BackgroundColor="#FEF2F2"
+                                Stroke="#FCA5A5"
+                                StrokeThickness="1"
+                                Padding="12,10"
+                                IsVisible="False">
+                            <Label x:Name="StatusLabel"
+                                   Text=""
+                                   TextColor="#DC2626"
+                                   FontSize="12"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"/>
+                        </Border>
+
+                        <!-- ================= LOGIN FORM ================= -->
+                        <VerticalStackLayout x:Name="LoginFormSection" Spacing="16">
+
+                            <!-- Quick Demo Picker Bar -->
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout Spacing="4">
+                                    <Label Text="⚡" FontSize="12" VerticalOptions="Center"/>
+                                    <Label Text="Akses Cepat Demo Akun (1-Klik):"
+                                           TextColor="#475569"
+                                           FontSize="11"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+
+                                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Button Text="🎓 Siswa"
+                                                Clicked="OnQuickDemoClicked"
+                                                CommandParameter="siswa"
+                                                HeightRequest="30"
+                                                Padding="10,0"
+                                                FontSize="11"
+                                                CornerRadius="15"
+                                                BackgroundColor="#ECFDF5"
+                                                TextColor="#065F46"/>
+
+                                        <Button Text="👨‍🏫 Guru"
+                                                Clicked="OnQuickDemoClicked"
+                                                CommandParameter="guru"
+                                                HeightRequest="30"
+                                                Padding="10,0"
+                                                FontSize="11"
+                                                CornerRadius="15"
+                                                BackgroundColor="#EFF6FF"
+                                                TextColor="#1E40AF"/>
+
+                                        <Button Text="🏢 Industri"
+                                                Clicked="OnQuickDemoClicked"
+                                                CommandParameter="industri"
+                                                HeightRequest="30"
+                                                Padding="10,0"
+                                                FontSize="11"
+                                                CornerRadius="15"
+                                                BackgroundColor="#EEF2FF"
+                                                TextColor="#3730A3"/>
+
+                                        <Button Text="⚙️ Admin"
+                                                Clicked="OnQuickDemoClicked"
+                                                CommandParameter="admin"
+                                                HeightRequest="30"
+                                                Padding="10,0"
+                                                FontSize="11"
+                                                CornerRadius="15"
+                                                BackgroundColor="#F5F3FF"
+                                                TextColor="#5B21B6"/>
+
+                                        <Button Text="📋 Operator"
+                                                Clicked="OnQuickDemoClicked"
+                                                CommandParameter="operator"
+                                                HeightRequest="30"
+                                                Padding="10,0"
+                                                FontSize="11"
+                                                CornerRadius="15"
+                                                BackgroundColor="#FFFBEB"
+                                                TextColor="#92400E"/>
+
+                                        <Button Text="📈 Monitor"
+                                                Clicked="OnQuickDemoClicked"
+                                                CommandParameter="monitor"
+                                                HeightRequest="30"
+                                                Padding="10,0"
+                                                FontSize="11"
+                                                CornerRadius="15"
+                                                BackgroundColor="#F0FDFA"
+                                                TextColor="#115E59"/>
+                                    </HorizontalStackLayout>
+                                </ScrollView>
+                            </VerticalStackLayout>
+
+                            <!-- Role Picker -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Peran / Role Pengguna"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        StrokeThickness="1"
+                                        Padding="12,0">
+                                    <Picker x:Name="LoginRolePicker"
+                                            Title="Pilih Role Anda"
+                                            TextColor="#0F172A"
+                                            TitleColor="#94A3B8"
+                                            HeightRequest="44">
+                                        <Picker.Items>
+                                            <x:String>Siswa</x:String>
+                                            <x:String>Guru Pendamping</x:String>
+                                            <x:String>Pembimbing Industri</x:String>
+                                            <x:String>Admin</x:String>
+                                            <x:String>Operator</x:String>
+                                            <x:String>Monitor</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Username / Email Entry -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Username atau Email"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        StrokeThickness="1"
+                                        Padding="14,0">
+                                    <Grid ColumnDefinitions="Auto, *">
+                                        <Label Grid.Column="0"
+                                               Text="👤"
+                                               FontSize="15"
+                                               VerticalOptions="Center"
+                                               Margin="0,0,8,0"/>
+                                        <Entry x:Name="LoginUsernameEntry"
+                                               Grid.Column="1"
+                                               Placeholder="Contoh: siswa atau email@smk.id"
+                                               TextColor="#0F172A"
+                                               PlaceholderColor="#94A3B8"
+                                               HeightRequest="44"/>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Password Entry with Eye Toggle -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Kata Sandi (Password)"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        StrokeThickness="1"
+                                        Padding="14,0">
+                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                        <Label Grid.Column="0"
+                                               Text="🔒"
+                                               FontSize="15"
+                                               VerticalOptions="Center"
+                                               Margin="0,0,8,0"/>
+                                        <Entry x:Name="LoginPasswordEntry"
+                                               Grid.Column="1"
+                                               Placeholder="Masukkan kata sandi"
+                                               IsPassword="True"
+                                               TextColor="#0F172A"
+                                               PlaceholderColor="#94A3B8"
+                                               HeightRequest="44"/>
+                                        <Button Grid.Column="2"
+                                                x:Name="TogglePasswordBtn"
+                                                Text="👁️"
+                                                Clicked="OnTogglePasswordClicked"
+                                                BackgroundColor="Transparent"
+                                                TextColor="#64748B"
+                                                WidthRequest="36"
+                                                HeightRequest="36"
+                                                Padding="0"/>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Remember Me & Forgot Password -->
+                            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                <HorizontalStackLayout Grid.Column="0" Spacing="6" VerticalOptions="Center">
+                                    <CheckBox x:Name="RememberMeCheck" IsChecked="True"/>
+                                    <Label Text="Ingat Saya"
+                                           TextColor="#475569"
+                                           FontSize="12"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+
+                                <Label Grid.Column="1"
+                                       Text="Lupa Sandi?"
+                                       TextColor="#2563EB"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnForgotPasswordTapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+
+                            <!-- Login Button -->
+                            <Button x:Name="LoginSubmitBtn"
+                                    Text="Masuk ke Sistem PKL →"
+                                    Clicked="OnLoginClicked"
+                                    BackgroundColor="#1E3A5F"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    HeightRequest="48"
+                                    CornerRadius="12"
+                                    Margin="0,4,0,0">
+                                <Button.Shadow>
+                                    <Shadow Brush="#1E3A5F" Offset="0,4" Radius="8" Opacity="0.3"/>
+                                </Button.Shadow>
+                            </Button>
+
+                            <!-- Switch to Register Link -->
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                <Label Text="Belum memiliki akun?"
+                                       TextColor="#64748B"
+                                       FontSize="12"/>
+                                <Label Text="Daftar di sini"
+                                       TextColor="#2563EB"
+                                       FontAttributes="Bold"
+                                       FontSize="12">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSwitchToRegisterTapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+
+                        <!-- ================= REGISTER FORM ================= -->
+                        <VerticalStackLayout x:Name="RegisterFormSection" Spacing="14" IsVisible="False">
+
+                            <Label Text="Lengkapi data akun untuk mendaftar ke portal PKL Monitor."
+                                   TextColor="#64748B"
+                                   FontSize="12"/>
+
+                            <!-- Role Picker -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Daftar Sebagai Peran *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        StrokeThickness="1"
+                                        Padding="12,0">
+                                    <Picker x:Name="RegisterRolePicker"
+                                            Title="Pilih Peran"
+                                            SelectedIndexChanged="OnRegisterRoleChanged"
+                                            TextColor="#0F172A"
+                                            TitleColor="#94A3B8"
+                                            HeightRequest="44">
+                                        <Picker.Items>
+                                            <x:String>Siswa</x:String>
+                                            <x:String>Guru Pendamping</x:String>
+                                            <x:String>Pembimbing Industri</x:String>
+                                            <x:String>Operator</x:String>
+                                            <x:String>Monitor</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Full Name -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Nama Lengkap &amp; Gelar *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        StrokeThickness="1"
+                                        Padding="14,0">
+                                    <Entry x:Name="RegFullNameEntry"
+                                           Placeholder="Contoh: Rizky Pratama"
+                                           TextColor="#0F172A"
+                                           PlaceholderColor="#94A3B8"
+                                           HeightRequest="44"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Username & Email (Grid 2-column) -->
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Username *"
+                                           TextColor="#334155"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                    <Border StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="#F8FAFC"
+                                            Stroke="#CBD5E1"
+                                            StrokeThickness="1"
+                                            Padding="12,0">
+                                        <Entry x:Name="RegUsernameEntry"
+                                               Placeholder="username_baru"
+                                               TextColor="#0F172A"
+                                               PlaceholderColor="#94A3B8"
+                                               HeightRequest="44"/>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="Email Aktif *"
+                                           TextColor="#334155"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                    <Border StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="#F8FAFC"
+                                            Stroke="#CBD5E1"
+                                            StrokeThickness="1"
+                                            Padding="12,0">
+                                        <Entry x:Name="RegEmailEntry"
+                                               Placeholder="user@smk.id"
+                                               Keyboard="Email"
+                                               TextColor="#0F172A"
+                                               PlaceholderColor="#94A3B8"
+                                               HeightRequest="44"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Identity Number (NISN / NIP / ID) -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label x:Name="RegIdNumberLabel"
+                                       Text="Nomor Induk (NISN / NIP / ID) *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        StrokeThickness="1"
+                                        Padding="14,0">
+                                    <Entry x:Name="RegIdNumberEntry"
+                                           Placeholder="Contoh NISN: 0067829102"
+                                           TextColor="#0F172A"
+                                           PlaceholderColor="#94A3B8"
+                                           HeightRequest="44"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Organization / School / Company -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label x:Name="RegOrgLabel"
+                                       Text="Asal Sekolah / Tempat Industri PKL *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        StrokeThickness="1"
+                                        Padding="14,0">
+                                    <Entry x:Name="RegOrgEntry"
+                                           Placeholder="Contoh: SMK Negeri 1 Jakarta / PT Telkom"
+                                           TextColor="#0F172A"
+                                           PlaceholderColor="#94A3B8"
+                                           HeightRequest="44"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Password & Confirmation (Grid 2-column) -->
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Kata Sandi *"
+                                           TextColor="#334155"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                    <Border StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="#F8FAFC"
+                                            Stroke="#CBD5E1"
+                                            StrokeThickness="1"
+                                            Padding="12,0">
+                                        <Entry x:Name="RegPasswordEntry"
+                                               Placeholder="Min 4 karakter"
+                                               IsPassword="True"
+                                               TextColor="#0F172A"
+                                               PlaceholderColor="#94A3B8"
+                                               HeightRequest="44"/>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="Ulangi Sandi *"
+                                           TextColor="#334155"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                    <Border StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="#F8FAFC"
+                                            Stroke="#CBD5E1"
+                                            StrokeThickness="1"
+                                            Padding="12,0">
+                                        <Entry x:Name="RegConfirmPasswordEntry"
+                                               Placeholder="Konfirmasi"
+                                               IsPassword="True"
+                                               TextColor="#0F172A"
+                                               PlaceholderColor="#94A3B8"
+                                               HeightRequest="44"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Agreement checkbox -->
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <CheckBox x:Name="RegAgreeCheck" IsChecked="True"/>
+                                <Label Text="Saya menyetujui syarat &amp; ketentuan PKL Monitor"
+                                       TextColor="#475569"
+                                       FontSize="11"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <!-- Register Button -->
+                            <Button x:Name="RegisterSubmitBtn"
+                                    Text="Daftar Akun Sekarang →"
+                                    Clicked="OnRegisterClicked"
+                                    BackgroundColor="#2563EB"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    HeightRequest="48"
+                                    CornerRadius="12"
+                                    Margin="0,4,0,0">
+                                <Button.Shadow>
+                                    <Shadow Brush="#2563EB" Offset="0,4" Radius="8" Opacity="0.3"/>
+                                </Button.Shadow>
+                            </Button>
+
+                            <!-- Switch to Login Link -->
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                <Label Text="Sudah memiliki akun?"
+                                       TextColor="#64748B"
+                                       FontSize="12"/>
+                                <Label Text="Masuk di sini"
+                                       TextColor="#2563EB"
+                                       FontAttributes="Bold"
+                                       FontSize="12">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSwitchToLoginTapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 3. FOOTER INFO -->
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                    <Label Text="Sistem Monitoring Praktik Kerja Lapangan Vokasi (PKL) • Versi 2.4"
+                           TextColor="#64748B"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Direktorat Jenderal Pendidikan Vokasi • Kemendikbudristek RI"
+                           TextColor="#94A3B8"
+                           FontSize="10"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </Grid>
     </ScrollView>
+
 </ContentPage>

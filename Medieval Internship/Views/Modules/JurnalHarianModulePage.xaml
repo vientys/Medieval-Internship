@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Medieval_Internship.Views.Modules.JurnalHarianModulePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <!-- TOP BAR -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0F172A"
+                Padding="16,12"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Grid.Column="0"
+                        Text="← Kembali"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#1E293B"
+                        TextColor="White"
+                        FontSize="12"
+                        HeightRequest="36"
+                        Padding="12,0"
+                        CornerRadius="8"/>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                    <Label Text="MODUL JURNAL HARIAN (DAILY JOURNAL)"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="UserRoleSubtitle"
+                           Text="Dokumentasi Pekerjaan, Unggah Bukti &amp; Review Pembimbing"
+                           TextColor="#94A3B8"
+                           FontSize="11"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#2563EB"
+                        Padding="10,4"
+                        StrokeThickness="0">
+                    <Label Text="📝 Logbook PKL"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="12"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- TABS -->
+        <Border Grid.Row="1"
+                BackgroundColor="White"
+                Stroke="#E2E8F0"
+                StrokeThickness="1"
+                Padding="16,8">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="TabListBtn"
+                        Text="📋 Daftar Jurnal"
+                        Clicked="OnTabListClicked"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabWriteBtn"
+                        Text="✍️ Tulis Jurnal Baru"
+                        Clicked="OnTabWriteClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+                <Button x:Name="TabReviewBtn"
+                        Text="🔍 Review &amp; Validasi Mentor"
+                        Clicked="OnTabReviewClicked"
+                        BackgroundColor="#F1F5F9"
+                        TextColor="#475569"
+                        FontSize="12"
+                        HeightRequest="36"
+                        CornerRadius="8"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- MAIN SCROLL -->
+        <ScrollView Grid.Row="2" Orientation="Vertical">
+            <VerticalStackLayout Padding="20" Spacing="16" MaximumWidthRequest="900" HorizontalOptions="Center">
+
+                <!-- STATUS BANNER -->
+                <Border x:Name="StatusBanner"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        BackgroundColor="#ECFDF5"
+                        Stroke="#6EE7B7">
+                    <Label x:Name="StatusLabel" TextColor="#065F46" FontSize="13"/>
+                </Border>
+
+                <!-- ================= TAB 1: DAFTAR JURNAL ================= -->
+                <VerticalStackLayout x:Name="SectionList" Spacing="14">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Entri Jurnal Aktivitas Harian"
+                               TextColor="#0F172A"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Button Grid.Column="1"
+                                Text="+ Buat Entri Hari Ini"
+                                Clicked="OnTabWriteClicked"
+                                BackgroundColor="#10B981"
+                                TextColor="White"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Padding="12,0"
+                                CornerRadius="8"/>
+                    </Grid>
+
+                    <VerticalStackLayout x:Name="JournalsContainer" Spacing="12">
+                        <!-- Dynamic journals -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 2: TULIS JURNAL BARU ================= -->
+                <VerticalStackLayout x:Name="SectionWrite" Spacing="16" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 14"
+                            BackgroundColor="White"
+                            Stroke="#E2E8F0"
+                            StrokeThickness="1"
+                            Padding="20">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Formulir Dokumentasi Aktivitas Harian PKL"
+                                   TextColor="#0F172A"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+
+                            <!-- Judul Kegiatan -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Judul Tugas / Pekerjaan Hari Ini *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,0">
+                                    <Entry x:Name="JournalTitleEntry"
+                                           Placeholder="Contoh: Slicing UI Dashboard &amp; Integrasi API"
+                                           TextColor="#0F172A"
+                                           FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Alat / Teknologi -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Alat / Bahasa Pemrograman / Teknologi Digunakan *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,0">
+                                    <Entry x:Name="JournalToolsEntry"
+                                           Placeholder="Contoh: C#, .NET MAUI, PostgreSQL, Git, Figma"
+                                           TextColor="#0F172A"
+                                           FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Rincian Pekerjaan -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Rincian Dokumentasi Pekerjaan yang Telah Dilakukan *"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="JournalDescEditor"
+                                            Placeholder="Jelaskan langkah-langkah teknis, modul yang diselesaikan, dan hasil kerja hari ini..."
+                                            TextColor="#0F172A"
+                                            HeightRequest="90"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Kendala & Masalah -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Kendala / Masalah yang Dihadapi"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="JournalObstaclesEditor"
+                                            Placeholder="Tuliskan kendala teknis atau kendala koordinasi yang muncul (jika ada)..."
+                                            TextColor="#0F172A"
+                                            HeightRequest="60"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Solusi -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Solusi / Tindak Lanjut"
+                                       TextColor="#334155"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#CBD5E1"
+                                        Padding="12,8">
+                                    <Editor x:Name="JournalSolutionEditor"
+                                            Placeholder="Bagaimana Anda menyelesaikan kendala tersebut atau arahan dari mentor..."
+                                            TextColor="#0F172A"
+                                            HeightRequest="60"
+                                            FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Bukti Foto / Dokumentasi -->
+                            <Border StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="#EFF6FF"
+                                    Stroke="#BFDBFE"
+                                    Padding="14">
+                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                    <Label Grid.Column="0" Text="📎" FontSize="22" VerticalOptions="Center" Margin="0,0,10,0"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="Unggah Bukti Dokumentasi Kegiatan *"
+                                               TextColor="#1E3A5F"
+                                               FontSize="12"
+                                               FontAttributes="Bold"/>
+                                        <Label x:Name="AttachmentLabel"
+                                               Text="screenshot_pekerjaan_hari_ini.png (Ukuran: 1.2 MB)"
+                                               TextColor="#2563EB"
+                                               FontSize="11"/>
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="2"
+                                            Text="Pilih File"
+                                            Clicked="OnChooseAttachmentClicked"
+                                            BackgroundColor="#2563EB"
+                                            TextColor="White"
+                                            FontSize="11"
+                                            HeightRequest="32"
+                                            Padding="10,0"
+                                            CornerRadius="6"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Submit Button -->
+                            <Button Text="Simpan &amp; Ajukan Jurnal ke Pembimbing →"
+                                    Clicked="OnSubmitJournalClicked"
+                                    BackgroundColor="#1E3A5F"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    HeightRequest="46"
+                                    CornerRadius="10"
+                                    Margin="0,8,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+
+                <!-- ================= TAB 3: REVIEW & VALIDASI MENTOR ================= -->
+                <VerticalStackLayout x:Name="SectionReview" Spacing="14" IsVisible="False">
+                    <Border StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#EFF6FF"
+                            Stroke="#BFDBFE"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Monitoring Jurnal Harian oleh Mentor Industri &amp; Guru"
+                                   TextColor="#1E3A5F"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+                            <Label Text="Periksa dokumentasi pekerjaan, alat yang digunakan, serta bukti screenshot/foto pekerjaan siswa. Berikan persetujuan atau catatan bimbingan teknis."
+                                   TextColor="#2563EB"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Label Text="Daftar Jurnal Siswa Menunggu Verifikasi"
+                           TextColor="#0F172A"
+                           FontAttributes="Bold"
+                           FontSize="15"/>
+
+                    <VerticalStackLayout x:Name="ReviewListContainer" Spacing="12">
+                        <!-- Dynamic review list -->
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
